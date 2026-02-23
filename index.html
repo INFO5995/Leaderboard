@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="INFO5995 leaderboard for student security findings like bug bounties and CVEs."
+    />
+    <title>INFO5995 Security Discovery Leaderboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="bg-grid" aria-hidden="true"></div>
+    <div class="blob blob-a" aria-hidden="true"></div>
+    <div class="blob blob-b" aria-hidden="true"></div>
+
+    <main class="page-shell">
+      <header class="hero">
+        <p class="eyebrow">INFO5995</p>
+        <h1 id="page-title">Security Discovery Leaderboard</h1>
+        <p class="hero-copy">
+          Tracking student discoveries across bug bounty programs, CVEs, and responsible disclosure wins.
+        </p>
+        <div class="hero-meta">
+          <span class="pill">Season <strong id="season-label">-</strong></span>
+          <span class="pill">Last Updated <strong id="last-updated">-</strong></span>
+        </div>
+      </header>
+
+      <section class="stats-grid" aria-label="Leaderboard stats">
+        <article class="stat-card">
+          <p class="stat-label">Students</p>
+          <p class="stat-value" id="stat-students">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Findings</p>
+          <p class="stat-value" id="stat-findings">0</p>
+        </article>
+        <article class="stat-card">
+          <p class="stat-label">Total Points</p>
+          <p class="stat-value" id="stat-points">0</p>
+        </article>
+      </section>
+
+      <section class="panel panel-table">
+        <div class="panel-head">
+          <h2>Rankings</h2>
+          <a href="data/entries.json" class="subtle-link">Edit data file</a>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Student</th>
+                <th>Cohort</th>
+                <th>Findings</th>
+                <th>Total Points</th>
+                <th>Latest Finding</th>
+              </tr>
+            </thead>
+            <tbody id="leaderboard-body">
+              <tr>
+                <td colspan="6">Loading leaderboard...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h2>Recent Discoveries</h2>
+          <p class="panel-caption">Most recent validated findings across the class.</p>
+        </div>
+        <ul id="recent-feed" class="feed-list">
+          <li class="feed-item">Loading findings...</li>
+        </ul>
+      </section>
+    </main>
+
+    <noscript>
+      <p class="noscript-message">Enable JavaScript to view the leaderboard data.</p>
+    </noscript>
+
+    <script src="script.js"></script>
+  </body>
+</html>
