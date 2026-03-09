@@ -251,6 +251,54 @@ function resolveGroupNumber(finding, student) {
   );
 }
 
+function normalizeSeverity(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, " ")
+    .trim();
+}
+
+function severityClass(value) {
+  const normalized = normalizeSeverity(value);
+
+  if (["critical", "severe", "urgent", "p0", "p1"].includes(normalized)) {
+    return "sev-critical";
+  }
+
+  if (["high", "major", "important", "p2"].includes(normalized)) {
+    return "sev-high";
+  }
+
+  if (["medium", "moderate", "p3"].includes(normalized)) {
+    return "sev-medium";
+  }
+
+  if (["low", "minor", "p4"].includes(normalized)) {
+    return "sev-low";
+  }
+
+  return "sev-unknown";
+}
+
+function rowToneClass(finding) {
+  const internalClass = severityClass(finding.internalSeverity);
+  if (internalClass !== "sev-unknown") {
+    return internalClass.replace("sev-", "tone-");
+  }
+
+  return severityClass(finding.externalSeverity).replace("sev-", "tone-");
+}
+
+function severityBadge(value, label) {
+  const text = firstNonEmpty(value, "Unknown");
+  const badge = document.createElement("span");
+  badge.className = `sev-badge ${severityClass(text)}`;
+  badge.textContent = text;
+  badge.setAttribute("aria-label", `${label}: ${text}`);
+  return badge;
+}
+
 function renderLeaderboard(findings) {
   els.leaderboardBody.innerHTML = "";
 
@@ -264,11 +312,28 @@ function renderLeaderboard(findings) {
 
   findings.forEach((finding) => {
     const row = document.createElement("tr");
-    row.append(makeCell(finding.internalSeverity || "-"));
-    row.append(makeCell(finding.externalSeverity || "-"));
-    row.append(makeCell(finding.mainStudents || "Unknown"));
-    row.append(makeCell(finding.groupNumber || "-"));
-    row.append(makeCell(formatDate(finding.date)));
+    row.classList.add("record-row", rowToneClass(finding));
+
+    const columns = [
+      {
+        label: "Internal Severity",
+        value: severityBadge(finding.internalSeverity, "Internal Severity")
+      },
+      {
+        label: "External Severity",
+        value: severityBadge(finding.externalSeverity, "External Severity")
+      },
+      { label: "Main Student(s)", value: finding.mainStudents || "Unknown" },
+      { label: "Group Number", value: finding.groupNumber || "-" },
+      { label: "Date", value: formatDate(finding.date) }
+    ];
+
+    columns.forEach((column) => {
+      const cell = makeCell(column.value);
+      cell.setAttribute("data-label", column.label);
+      row.append(cell);
+    });
+
     els.leaderboardBody.append(row);
   });
 }
@@ -312,7 +377,7 @@ function renderRecentFindings(findings) {
 
   latest.forEach((finding) => {
     const item = document.createElement("li");
-    item.className = "feed-item";
+    item.className = `feed-item ${rowToneClass(finding)}`;
 
     const head = document.createElement("div");
     head.className = "feed-head";
@@ -329,11 +394,18 @@ function renderRecentFindings(findings) {
 
     const meta = document.createElement("p");
     meta.className = "feed-meta";
-    meta.textContent = `${finding.mainStudents} | Group ${finding.groupNumber} | Internal: ${
-      finding.internalSeverity
-    } | External: ${finding.externalSeverity} | ${formatDate(finding.date)}`;
+    meta.textContent = `${finding.mainStudents} • Group ${finding.groupNumber} • ${formatDate(
+      finding.date
+    )}`;
 
-    item.append(head, meta);
+    const severityMeta = document.createElement("div");
+    severityMeta.className = "severity-inline";
+    severityMeta.append(
+      severityBadge(finding.internalSeverity, "Internal Severity"),
+      severityBadge(finding.externalSeverity, "External Severity")
+    );
+
+    item.append(head, meta, severityMeta);
 
     if (finding.url) {
       const link = document.createElement("a");
