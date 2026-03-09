@@ -45,10 +45,15 @@ Each finding can include:
 - `type` (for example: `Bug Bounty`, `CVE`, `Hall of Fame`, `Write Up`)
 - `title`
 - `program`
+- `internalSeverity` (for your internal severity classification)
+- `externalSeverity` (for the platform/program severity classification)
+- `mainStudents` (string or array of names)
+- `groupNumber` (string or number)
 - `date` (`YYYY-MM-DD`)
 - `points` (optional, number)
 - `url` (optional)
 
+If `mainStudents` or `groupNumber` is omitted, the page falls back to student-level fields (`name` and `cohort`).
 If `points` is omitted, default points are pulled from the top-level `scoring` map.
 
 ## Optional Local Preview

@@ -20,11 +20,12 @@ async function init() {
 
     const data = await response.json();
     const students = buildStudents(data);
+    const findings = flattenFindings(students);
 
     renderMeta(data);
     renderStats(students);
-    renderLeaderboard(students);
-    renderRecentFindings(students);
+    renderLeaderboard(findings);
+    renderRecentFindings(findings);
   } catch (error) {
     showError(error);
   }
@@ -139,45 +140,135 @@ function makeCell(content, className) {
   return td;
 }
 
-function renderLeaderboard(students) {
+function firstNonEmpty(...values) {
+  for (const value of values) {
+    if (value === null || value === undefined) {
+      continue;
+    }
+
+    const text = String(value).trim();
+    if (text) {
+      return text;
+    }
+  }
+
+  return "";
+}
+
+function normalizeNameList(value) {
+  if (Array.isArray(value)) {
+    return value.map((entry) => String(entry).trim()).filter(Boolean);
+  }
+
+  if (typeof value === "string") {
+    const text = value.trim();
+    if (!text) {
+      return [];
+    }
+
+    if (text.includes(",")) {
+      return text
+        .split(",")
+        .map((entry) => entry.trim())
+        .filter(Boolean);
+    }
+
+    return [text];
+  }
+
+  return [];
+}
+
+function resolveInternalSeverity(finding) {
+  return (
+    firstNonEmpty(
+      finding.internalSeverity,
+      finding.internal_severity,
+      finding.severityInternal,
+      finding.severity_internal,
+      finding.internalSeverityClassification,
+      finding.internal_classification
+    ) || "-"
+  );
+}
+
+function resolveExternalSeverity(finding) {
+  return (
+    firstNonEmpty(
+      finding.externalSeverity,
+      finding.external_severity,
+      finding.severityExternal,
+      finding.severity_external,
+      finding.externalSeverityClassification,
+      finding.external_classification
+    ) || "-"
+  );
+}
+
+function resolveMainStudents(finding, student) {
+  const fromFinding = normalizeNameList(
+    finding.mainStudents ??
+      finding.main_students ??
+      finding.studentNames ??
+      finding.student_names ??
+      finding.students
+  );
+
+  if (fromFinding.length > 0) {
+    return fromFinding.join(", ");
+  }
+
+  const singleStudent = firstNonEmpty(
+    finding.mainStudent,
+    finding.main_student,
+    finding.studentName,
+    finding.student_name
+  );
+
+  if (singleStudent) {
+    return singleStudent;
+  }
+
+  const fromStudent = normalizeNameList(student.mainStudents ?? student.students);
+  if (fromStudent.length > 0) {
+    return fromStudent.join(", ");
+  }
+
+  return firstNonEmpty(student.name, "Unknown");
+}
+
+function resolveGroupNumber(finding, student) {
+  return (
+    firstNonEmpty(
+      finding.groupNumber,
+      finding.group_number,
+      finding.group,
+      student.groupNumber,
+      student.group_number,
+      student.group,
+      student.cohort
+    ) || "-"
+  );
+}
+
+function renderLeaderboard(findings) {
   els.leaderboardBody.innerHTML = "";
 
-  if (students.length === 0) {
+  if (findings.length === 0) {
     const row = document.createElement("tr");
-    row.append(makeCell("No student entries yet.", ""));
-    row.firstElementChild.colSpan = 6;
+    row.append(makeCell("No vulnerability entries yet.", ""));
+    row.firstElementChild.colSpan = 5;
     els.leaderboardBody.append(row);
     return;
   }
 
-  students.forEach((student, index) => {
+  findings.forEach((finding) => {
     const row = document.createElement("tr");
-    const rankPill = document.createElement("span");
-    rankPill.className = "rank-pill";
-    rankPill.textContent = `#${index + 1}`;
-
-    const studentCell = document.createElement("div");
-    const studentName = document.createElement("span");
-    studentName.className = "student-name";
-    studentName.textContent = student.name || "Unknown";
-    studentCell.append(studentName);
-    if (student.notes) {
-      const note = document.createElement("span");
-      note.className = "student-note";
-      note.textContent = student.notes;
-      studentCell.append(note);
-    }
-
-    const latestText = student.latestFinding
-      ? `${student.latestFinding.type || "Finding"}: ${student.latestFinding.title || "Untitled"}`
-      : "No findings";
-
-    row.append(makeCell(rankPill));
-    row.append(makeCell(studentCell));
-    row.append(makeCell(student.cohort || "-"));
-    row.append(makeCell(student.findingCount));
-    row.append(makeCell(student.totalPoints, "points"));
-    row.append(makeCell(latestText));
+    row.append(makeCell(finding.internalSeverity || "-"));
+    row.append(makeCell(finding.externalSeverity || "-"));
+    row.append(makeCell(finding.mainStudents || "Unknown"));
+    row.append(makeCell(finding.groupNumber || "-"));
+    row.append(makeCell(formatDate(finding.date)));
     els.leaderboardBody.append(row);
   });
 }
@@ -190,7 +281,11 @@ function flattenFindings(students) {
       findings.push({
         ...finding,
         studentName: student.name || "Unknown",
-        cohort: student.cohort || "-"
+        cohort: student.cohort || "-",
+        internalSeverity: resolveInternalSeverity(finding),
+        externalSeverity: resolveExternalSeverity(finding),
+        mainStudents: resolveMainStudents(finding, student),
+        groupNumber: resolveGroupNumber(finding, student)
       });
     });
   });
@@ -203,9 +298,9 @@ function flattenFindings(students) {
   });
 }
 
-function renderRecentFindings(students) {
+function renderRecentFindings(findings) {
   els.recentFeed.innerHTML = "";
-  const latest = flattenFindings(students).slice(0, 10);
+  const latest = findings.slice(0, 10);
 
   if (latest.length === 0) {
     const item = document.createElement("li");
@@ -234,9 +329,9 @@ function renderRecentFindings(students) {
 
     const meta = document.createElement("p");
     meta.className = "feed-meta";
-    meta.textContent = `${finding.studentName} (${finding.cohort}) | ${
-      finding.program || "Program not set"
-    } | ${formatDate(finding.date)}`;
+    meta.textContent = `${finding.mainStudents} | Group ${finding.groupNumber} | Internal: ${
+      finding.internalSeverity
+    } | External: ${finding.externalSeverity} | ${formatDate(finding.date)}`;
 
     item.append(head, meta);
 
@@ -259,7 +354,7 @@ function showError(error) {
   els.leaderboardBody.innerHTML = "";
   const row = document.createElement("tr");
   const cell = document.createElement("td");
-  cell.colSpan = 6;
+  cell.colSpan = 5;
   cell.textContent = "Unable to load leaderboard data. Check data/entries.json.";
   row.append(cell);
   els.leaderboardBody.append(row);
