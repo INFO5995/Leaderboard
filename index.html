@@ -55,6 +55,39 @@
         </article>
       </section>
 
+      <section class="panel">
+        <div class="panel-head">
+          <div class="panel-title-stack">
+            <h2>How Scores Work</h2>
+            <p class="panel-caption">This dashboard uses the same finding-level rubric logic used for Assignment 2 Part B impact scoring.</p>
+          </div>
+        </div>
+        <div class="scoring-grid">
+          <article class="score-card score-card-formula">
+            <p class="score-card-label">Formula</p>
+            <p class="score-formula" id="scoring-formula">Loading scoring model...</p>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Severity</p>
+            <ul class="score-list" id="severity-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Impact Evidence</p>
+            <ul class="score-list" id="impact-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Novelty</p>
+            <ul class="score-list" id="novelty-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
       <section class="panel panel-table">
         <div class="panel-head panel-head-table">
           <div class="panel-title-stack">
@@ -73,16 +106,18 @@
           <table>
             <thead>
               <tr>
+                <th>Finding</th>
                 <th>Internal Severity</th>
                 <th>External Severity</th>
+                <th>Rubric Score</th>
+                <th>Breakdown</th>
                 <th>Main Student(s)</th>
-                <th>Group Number</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody id="leaderboard-body">
               <tr>
-                <td colspan="5">Loading records...</td>
+                <td colspan="7">Loading records...</td>
               </tr>
             </tbody>
           </table>

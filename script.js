@@ -5,6 +5,10 @@ const els = {
   statStudents: document.getElementById("stat-students"),
   statFindings: document.getElementById("stat-findings"),
   statPoints: document.getElementById("stat-points"),
+  scoringFormula: document.getElementById("scoring-formula"),
+  severityScoreList: document.getElementById("severity-score-list"),
+  impactScoreList: document.getElementById("impact-score-list"),
+  noveltyScoreList: document.getElementById("novelty-score-list"),
   leaderboardBody: document.getElementById("leaderboard-body"),
   recentFeed: document.getElementById("recent-feed")
 };
@@ -24,6 +28,7 @@ async function init() {
 
     renderMeta(data);
     renderStats(students);
+    renderScoringModel(data);
     renderLeaderboard(findings);
     renderRecentFindings(findings);
   } catch (error) {
@@ -57,10 +62,64 @@ function formatDate(value) {
   });
 }
 
-function resolvePoints(finding, scoring) {
+function formatScore(value) {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return "-";
+  }
+
+  return Number.isInteger(numeric) ? String(numeric) : numeric.toFixed(1);
+}
+
+function resolveScorePart(finding, ...keys) {
+  for (const key of keys) {
+    const value = Number(finding?.[key]);
+    if (Number.isFinite(value)) {
+      return value;
+    }
+  }
+
+  return null;
+}
+
+function resolveScoreBreakdown(finding) {
+  const severity = resolveScorePart(
+    finding,
+    "severityScore",
+    "severity_score",
+    "severityPoints",
+    "severity_points"
+  );
+  const impact = resolveScorePart(
+    finding,
+    "impactEvidenceScore",
+    "impact_evidence_score",
+    "impactScore",
+    "impact_score"
+  );
+  const novelty = resolveScorePart(
+    finding,
+    "noveltyScore",
+    "novelty_score",
+    "noveltyPoints",
+    "novelty_points"
+  );
+
+  return { severity, impact, novelty };
+}
+
+function resolvePoints(finding, scoring, breakdown) {
   const explicit = Number(finding.points);
   if (Number.isFinite(explicit)) {
     return explicit;
+  }
+
+  const breakdownTotal =
+    Number(breakdown?.severity ?? NaN) +
+    Number(breakdown?.impact ?? NaN) +
+    Number(breakdown?.novelty ?? NaN);
+  if (Number.isFinite(breakdownTotal)) {
+    return breakdownTotal;
   }
 
   const key = normalizeType(finding.type);
@@ -78,10 +137,15 @@ function buildStudents(data) {
   return rawStudents
     .map((student) => {
       const findings = Array.isArray(student.findings) ? student.findings : [];
-      const scoredFindings = findings.map((finding) => ({
-        ...finding,
-        points: resolvePoints(finding, data.scoring)
-      }));
+      const scoredFindings = findings.map((finding) => {
+        const breakdown = resolveScoreBreakdown(finding);
+
+        return {
+          ...finding,
+          scoreBreakdown: breakdown,
+          points: resolvePoints(finding, data.scoring, breakdown)
+        };
+      });
 
       const totalPoints = scoredFindings.reduce((sum, finding) => sum + finding.points, 0);
       const latestFinding =
@@ -116,13 +180,56 @@ function renderMeta(data) {
   els.lastUpdated.textContent = formatDate(data.lastUpdated);
 }
 
+function renderScoringList(element, items) {
+  if (!element) {
+    return;
+  }
+
+  element.innerHTML = "";
+  if (!Array.isArray(items) || items.length === 0) {
+    const item = document.createElement("li");
+    item.textContent = "Not configured.";
+    element.append(item);
+    return;
+  }
+
+  items.forEach((entry) => {
+    const item = document.createElement("li");
+
+    const score = document.createElement("span");
+    score.className = "score-chip";
+    score.textContent = `${formatScore(entry.score)} pts`;
+
+    const text = document.createElement("span");
+    text.textContent = entry.label
+      ? `${entry.label}: ${entry.detail || ""}`.trim()
+      : entry.detail || "";
+
+    item.append(score, text);
+    element.append(item);
+  });
+}
+
+function renderScoringModel(data) {
+  const model = data.scoringModel || {};
+  if (els.scoringFormula) {
+    els.scoringFormula.textContent =
+      model.formula ||
+      "Final finding score = Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10.";
+  }
+
+  renderScoringList(els.severityScoreList, model.severityTiers);
+  renderScoringList(els.impactScoreList, model.impactEvidence);
+  renderScoringList(els.noveltyScoreList, model.novelty);
+}
+
 function renderStats(students) {
   const findingCount = students.reduce((sum, student) => sum + student.findingCount, 0);
   const totalPoints = students.reduce((sum, student) => sum + student.totalPoints, 0);
 
   els.statStudents.textContent = String(students.length);
   els.statFindings.textContent = String(findingCount);
-  els.statPoints.textContent = String(totalPoints);
+  els.statPoints.textContent = formatScore(totalPoints);
 }
 
 function makeCell(content, className) {
@@ -138,6 +245,72 @@ function makeCell(content, className) {
   }
 
   return td;
+}
+
+function buildFindingCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "finding-stack";
+
+  const title = document.createElement("p");
+  title.className = "finding-title";
+  title.textContent = finding.title || "Untitled finding";
+
+  const meta = document.createElement("p");
+  meta.className = "finding-meta";
+  meta.textContent = `${finding.type || "Finding"} • ${finding.program || "Program withheld"}`;
+
+  wrap.append(title, meta);
+  return wrap;
+}
+
+function formatBreakdown(breakdown) {
+  if (
+    !Number.isFinite(breakdown?.severity) ||
+    !Number.isFinite(breakdown?.impact) ||
+    !Number.isFinite(breakdown?.novelty)
+  ) {
+    return "Breakdown not provided";
+  }
+
+  return `Severity ${formatScore(breakdown.severity)} + Impact ${formatScore(
+    breakdown.impact
+  )} + Novelty ${formatScore(breakdown.novelty)}`;
+}
+
+function buildScoreCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "score-stack";
+
+  const main = document.createElement("p");
+  main.className = "score-main";
+  main.textContent = `${formatScore(finding.points)}/10`;
+
+  const sub = document.createElement("p");
+  sub.className = "score-sub";
+  sub.textContent = formatBreakdown(finding.scoreBreakdown);
+
+  wrap.append(main, sub);
+  return wrap;
+}
+
+function buildBreakdownCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "breakdown-stack";
+
+  const line = document.createElement("p");
+  line.className = "breakdown-line";
+  line.textContent = formatBreakdown(finding.scoreBreakdown);
+
+  wrap.append(line);
+
+  if (finding.scoreReason) {
+    const note = document.createElement("p");
+    note.className = "breakdown-note";
+    note.textContent = finding.scoreReason;
+    wrap.append(note);
+  }
+
+  return wrap;
 }
 
 function firstNonEmpty(...values) {
@@ -305,7 +478,7 @@ function renderLeaderboard(findings) {
   if (findings.length === 0) {
     const row = document.createElement("tr");
     row.append(makeCell("No vulnerability entries yet.", ""));
-    row.firstElementChild.colSpan = 5;
+    row.firstElementChild.colSpan = 7;
     els.leaderboardBody.append(row);
     return;
   }
@@ -316,6 +489,10 @@ function renderLeaderboard(findings) {
 
     const columns = [
       {
+        label: "Finding",
+        value: buildFindingCell(finding)
+      },
+      {
         label: "Internal Severity",
         value: severityBadge(finding.internalSeverity, "Internal Severity")
       },
@@ -323,8 +500,9 @@ function renderLeaderboard(findings) {
         label: "External Severity",
         value: severityBadge(finding.externalSeverity, "External Severity")
       },
+      { label: "Rubric Score", value: buildScoreCell(finding) },
+      { label: "Breakdown", value: buildBreakdownCell(finding) },
       { label: "Main Student(s)", value: finding.mainStudents || "Unknown" },
-      { label: "Group Number", value: finding.groupNumber || "-" },
       { label: "Date", value: formatDate(finding.date) }
     ];
 
@@ -394,7 +572,7 @@ function renderRecentFindings(findings) {
 
     const meta = document.createElement("p");
     meta.className = "feed-meta";
-    meta.textContent = `${finding.mainStudents} • Group ${finding.groupNumber} • ${formatDate(
+    meta.textContent = `${finding.mainStudents} • ${finding.program || "Program withheld"} • ${formatDate(
       finding.date
     )}`;
 
@@ -405,7 +583,11 @@ function renderRecentFindings(findings) {
       severityBadge(finding.externalSeverity, "External Severity")
     );
 
-    item.append(head, meta, severityMeta);
+    const breakdown = document.createElement("p");
+    breakdown.className = "feed-breakdown";
+    breakdown.textContent = formatBreakdown(finding.scoreBreakdown);
+
+    item.append(head, meta, severityMeta, breakdown);
 
     if (finding.url) {
       const link = document.createElement("a");

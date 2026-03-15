@@ -2,6 +2,64 @@
   "title": "INFO5995 Security Discovery Leaderboard",
   "season": "2026",
   "lastUpdated": "2026-03-15",
+  "scoringModel": {
+    "formula": "Final finding score = Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10.",
+    "severityTiers": [
+      {
+        "label": "S4 Critical",
+        "score": 6,
+        "detail": "Platform critical, or CVSS 9.0 and above"
+      },
+      {
+        "label": "S3 High",
+        "score": 4.5,
+        "detail": "Platform high, or CVSS 7.0 to 8.9"
+      },
+      {
+        "label": "S2 Medium",
+        "score": 3,
+        "detail": "Platform medium, or CVSS 4.0 to 6.9"
+      },
+      {
+        "label": "S1 Low",
+        "score": 1.5,
+        "detail": "Platform low, or CVSS 0.1 to 3.9"
+      },
+      {
+        "label": "S0 None",
+        "score": 0,
+        "detail": "Informational only, policy-only, or no verifiable security impact"
+      }
+    ],
+    "impactEvidence": [
+      {
+        "score": 2,
+        "detail": "Exploit path, affected asset or data, and real-world consequence are clearly evidenced"
+      },
+      {
+        "score": 1,
+        "detail": "Impact evidence is partial or incomplete"
+      },
+      {
+        "score": 0,
+        "detail": "Impact is speculative"
+      }
+    ],
+    "novelty": [
+      {
+        "score": 2,
+        "detail": "Well-supported zero-day candidate"
+      },
+      {
+        "score": 1,
+        "detail": "Valid confirmed non-zero-day"
+      },
+      {
+        "score": 0,
+        "detail": "Novelty unsupported"
+      }
+    ]
+  },
   "scoring": {
     "bug_bounty": 0,
     "cve": 0,
@@ -22,7 +80,11 @@
           "internalSeverity": "Medium",
           "mainStudents": "Approval pending",
           "date": "2026-03-03",
-          "points": 6
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "points": 6,
+          "scoreReason": "Medium-severity access control issue with strong impact evidence from acknowledgment and fix, but novelty is treated as confirmed non-zero-day."
         }
       ]
     },
@@ -39,7 +101,11 @@
           "externalSeverity": "P3",
           "mainStudents": "Approval pending",
           "date": "2026-03-15",
-          "points": 5
+          "severityScore": 3,
+          "impactEvidenceScore": 1,
+          "noveltyScore": 1,
+          "points": 5,
+          "scoreReason": "Provisional Medium finding: platform-reported P3 with partial impact evidence and no supported zero-day claim yet."
         }
       ]
     }

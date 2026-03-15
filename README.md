@@ -47,6 +47,10 @@ Each finding can include:
 - `program`
 - `internalSeverity` (for your internal severity classification)
 - `externalSeverity` (for the platform/program severity classification)
+- `severityScore` (0--6 rubric severity component)
+- `impactEvidenceScore` (0--2 rubric impact-evidence component)
+- `noveltyScore` (0--2 rubric novelty component)
+- `scoreReason` (optional short explanation for the displayed breakdown)
 - `mainStudents` (string or array of names)
 - `groupNumber` (string or number)
 - `date` (`YYYY-MM-DD`)
@@ -56,6 +60,7 @@ Each finding can include:
 If `mainStudents` or `groupNumber` is omitted, the page falls back to student-level fields (`name` and `cohort`).
 For this leaderboard, `points` should normally be set explicitly and should reflect the rubric-aligned finding score rather than any assignment bonus mark.
 If `points` is omitted, fallback points are pulled from the top-level `scoring` map, which is intentionally conservative.
+If `points` is omitted but the rubric breakdown fields are present, the page will sum `severityScore + impactEvidenceScore + noveltyScore`.
 
 ## Optional Local Preview
 
