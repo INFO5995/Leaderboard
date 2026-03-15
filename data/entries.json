@@ -13,12 +13,12 @@
     {
       "name": "Approval pending",
       "cohort": "INFO5995",
-      "notes": "Student name hidden while approval for public display is pending. University of Sydney acknowledged the finding as a true positive and fixed it after disclosure.",
+      "notes": "Student name hidden while approval for public display is pending. The organization acknowledged the finding as a true positive and fixed it after disclosure.",
       "findings": [
         {
           "type": "Disclosure",
-          "title": "ServiceNow attachment/API access control issue acknowledged and fixed",
-          "program": "University of Sydney ServiceNow",
+          "title": "Attachment/API access control issue acknowledged and fixed",
+          "program": "Organization system withheld pending approval",
           "internalSeverity": "Medium",
           "mainStudents": "Approval pending",
           "date": "2026-03-03",
