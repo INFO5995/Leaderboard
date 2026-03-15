@@ -1,12 +1,45 @@
 {
   "title": "INFO5995 Security Discovery Leaderboard",
   "season": "2026",
-  "lastUpdated": "2026-02-23",
+  "lastUpdated": "2026-03-15",
   "scoring": {
     "bug_bounty": 20,
     "cve": 35,
     "hall_of_fame": 15,
     "write_up": 10
   },
-  "students": []
+  "students": [
+    {
+      "name": "Approval pending",
+      "cohort": "INFO5995",
+      "notes": "Student name hidden while approval for public display is pending. University of Sydney acknowledged the finding as a true positive and fixed it after disclosure.",
+      "findings": [
+        {
+          "type": "Disclosure",
+          "title": "ServiceNow attachment/API access control issue acknowledged and fixed",
+          "program": "University of Sydney ServiceNow",
+          "internalSeverity": "Medium",
+          "mainStudents": "Approval pending",
+          "date": "2026-03-03",
+          "points": 20
+        }
+      ]
+    },
+    {
+      "name": "Approval pending",
+      "cohort": "INFO5995",
+      "notes": "Student name hidden while approval for public display is pending. Provisional leaderboard entry based on reported bug bounty result.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "IoT authentication weakness in RTSP digest handling",
+          "program": "Bug bounty target withheld pending approval",
+          "internalSeverity": "Medium",
+          "externalSeverity": "P3",
+          "mainStudents": "Approval pending",
+          "date": "2026-03-15"
+        }
+      ]
+    }
+  ]
 }
