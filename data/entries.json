@@ -3,10 +3,11 @@
   "season": "2026",
   "lastUpdated": "2026-03-15",
   "scoring": {
-    "bug_bounty": 20,
-    "cve": 35,
-    "hall_of_fame": 15,
-    "write_up": 10
+    "bug_bounty": 0,
+    "cve": 0,
+    "hall_of_fame": 0,
+    "write_up": 0,
+    "disclosure": 0
   },
   "students": [
     {
@@ -21,7 +22,7 @@
           "internalSeverity": "Medium",
           "mainStudents": "Approval pending",
           "date": "2026-03-03",
-          "points": 20
+          "points": 6
         }
       ]
     },
@@ -37,7 +38,8 @@
           "internalSeverity": "Medium",
           "externalSeverity": "P3",
           "mainStudents": "Approval pending",
-          "date": "2026-03-15"
+          "date": "2026-03-15",
+          "points": 5
         }
       ]
     }

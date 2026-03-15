@@ -54,7 +54,8 @@ Each finding can include:
 - `url` (optional)
 
 If `mainStudents` or `groupNumber` is omitted, the page falls back to student-level fields (`name` and `cohort`).
-If `points` is omitted, default points are pulled from the top-level `scoring` map.
+For this leaderboard, `points` should normally be set explicitly and should reflect the rubric-aligned finding score rather than any assignment bonus mark.
+If `points` is omitted, fallback points are pulled from the top-level `scoring` map, which is intentionally conservative.
 
 ## Optional Local Preview
 

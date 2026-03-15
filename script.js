@@ -388,7 +388,7 @@ function renderRecentFindings(findings) {
 
     const points = document.createElement("span");
     points.className = "feed-points";
-    points.textContent = `+${finding.points} pts`;
+    points.textContent = `${finding.points}/10`;
 
     head.append(title, points);
 
