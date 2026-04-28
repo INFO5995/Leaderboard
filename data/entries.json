@@ -69,6 +69,54 @@
   },
   "students": [
     {
+      "name": "Tutorial 14 Group 1",
+      "cohort": "INFO5995",
+      "tutorialNumber": 14,
+      "groupNumber": 1,
+      "mainStudents": "Maurice Ng",
+      "notes": "Affected organizations and technical details are withheld because the issues are not fixed yet. Reports were submitted via HKCERT.",
+      "findings": [
+        {
+          "type": "Disclosure",
+          "title": "Sensitive data storage disclosure reported via HKCERT (case A)",
+          "program": "Affected organization withheld pending remediation",
+          "internalSeverity": "Critical",
+          "severitySource": "Internally assessed",
+          "severityRationale": "CVSS above 9, sensitive data in storage, confirmed zero-day, and not fixed yet.",
+          "date": "2026-04-29",
+          "reportPlatform": "HKCERT",
+          "reportStatus": "Reported via HKCERT; not fixed",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization and technical details withheld pending remediation.",
+          "severityScore": 6,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 10,
+          "scoreReason": "Critical disclosure scored from CVSS above 9, sensitive data in storage, privately verified impact evidence, and confirmed zero-day status. Details are withheld because remediation is still pending."
+        },
+        {
+          "type": "Disclosure",
+          "title": "Sensitive data storage disclosure reported via HKCERT (case B)",
+          "program": "Affected organization withheld pending remediation",
+          "internalSeverity": "Critical",
+          "severitySource": "Internally assessed",
+          "severityRationale": "CVSS above 9, sensitive data in storage, confirmed zero-day, and not fixed yet.",
+          "date": "2026-04-29",
+          "reportPlatform": "HKCERT",
+          "reportStatus": "Reported via HKCERT; not fixed",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization and technical details withheld pending remediation.",
+          "severityScore": 6,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 10,
+          "scoreReason": "Critical disclosure scored from CVSS above 9, sensitive data in storage, privately verified impact evidence, and confirmed zero-day status. Details are withheld because remediation is still pending."
+        }
+      ]
+    },
+    {
       "name": "Tutorial 14 Group 2",
       "cohort": "INFO5995",
       "tutorialNumber": 14,
