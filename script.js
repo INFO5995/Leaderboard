@@ -268,9 +268,8 @@ function topSeverityFinding(student) {
     student.findings
       .slice()
       .sort((a, b) => {
-        const severityDelta = numericSeverityScore(b) - numericSeverityScore(a);
-        if (severityDelta !== 0) {
-          return severityDelta;
+        if (b.points !== a.points) {
+          return b.points - a.points;
         }
 
         return findingTimestamp(b) - findingTimestamp(a);
@@ -289,9 +288,8 @@ function bonusRankRows(students) {
   const severity = rankedTeams
     .filter((row) => row.topFinding)
     .sort((a, b) => {
-      const severityDelta = numericSeverityScore(b.topFinding) - numericSeverityScore(a.topFinding);
-      if (severityDelta !== 0) {
-        return severityDelta;
+      if (b.topFinding.points !== a.topFinding.points) {
+        return b.topFinding.points - a.topFinding.points;
       }
 
       return findingTimestamp(b.topFinding) - findingTimestamp(a.topFinding);
@@ -310,7 +308,7 @@ function bonusRankRows(students) {
         return severityDelta;
       }
 
-      return findingTimestamp(b.topFinding) - findingTimestamp(a.topFinding);
+      return b.topFinding.points - a.topFinding.points;
     })
     .slice(0, 3);
 
@@ -348,7 +346,7 @@ function renderRankingList(element, rows, mode) {
     const detail = document.createElement("p");
     detail.className = "ranking-detail";
     if (mode === "severity") {
-      detail.textContent = `Severity ${formatScore(numericSeverityScore(row.topFinding))}/6: ${
+      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10: ${
         row.topFinding.title
       }`;
     } else {
@@ -426,17 +424,17 @@ function formatCompactBreakdown(breakdown) {
   )}`;
 }
 
-function buildSeverityScoreCell(finding) {
+function buildScoreCell(finding) {
   const wrap = document.createElement("div");
   wrap.className = "score-stack";
 
   const main = document.createElement("p");
   main.className = "score-main";
-  main.textContent = `${formatScore(numericSeverityScore(finding))}/6`;
+  main.textContent = `${formatScore(finding.points)}/10`;
 
   const sub = document.createElement("p");
   sub.className = "score-sub";
-  sub.textContent = "Severity only";
+  sub.textContent = formatCompactBreakdown(finding.scoreBreakdown);
   sub.title = formatBreakdown(finding.scoreBreakdown);
 
   wrap.append(main, sub);
@@ -1020,7 +1018,7 @@ function renderLeaderboard(findings) {
       { label: "Tutorial", value: formatLabelNumber("Tutorial", finding.tutorialNumber) },
       { label: "Group", value: formatLabelNumber("Group", finding.groupNumber) },
       { label: "Zero-day", value: zeroDayBadge(finding.zeroDayStatus) },
-      { label: "Severity Score", value: buildSeverityScoreCell(finding) },
+      { label: "Rubric Score", value: buildScoreCell(finding) },
       { label: "Date", value: formatDate(finding.date) }
     ];
 
