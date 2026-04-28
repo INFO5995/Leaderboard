@@ -7,131 +7,99 @@
       name="description"
       content="INFO5995 leaderboard for student security findings like bug bounties and CVEs."
     />
-    <title>INFO5995 Security Discovery Leaderboard</title>
+    <title>INFO5995 Security Findings</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div class="bg-grid" aria-hidden="true"></div>
-    <div class="blob blob-a" aria-hidden="true"></div>
-    <div class="blob blob-b" aria-hidden="true"></div>
-
     <main class="page-shell">
-      <header class="hero">
-        <p class="eyebrow">INFO5995</p>
-        <h1 id="page-title">Security Discovery Leaderboard</h1>
-        <p class="hero-copy">
-          Tracking student discoveries across bug bounty programs, CVEs, and responsible disclosure wins.
-        </p>
-        <p class="hero-copy">
-          Some student names are temporarily hidden while I ask for approval to display them publicly.
-        </p>
-        <p class="hero-copy">
-          Scores shown here are rubric-aligned finding scores, not assignment bonus marks.
-        </p>
-        <div class="hero-meta">
-          <span class="pill">Season <strong id="season-label">-</strong></span>
-          <span class="pill">Last Updated <strong id="last-updated">-</strong></span>
+      <header class="site-header">
+        <nav class="top-nav" aria-label="Leaderboard navigation">
+          <a class="brand" href="index.html">INFO5995</a>
+          <a class="nav-link" href="scoring.html">Scoring guide</a>
+        </nav>
+        <div class="header-copy">
+          <p class="eyebrow" id="season-label">-</p>
+          <h1 id="page-title">Security Discovery Leaderboard</h1>
+          <p class="hero-copy">
+            Validated security findings from Semester 1, including bug bounty reports, CVEs, and responsible disclosures.
+          </p>
+          <div class="header-meta">
+            <span>Last updated <strong id="last-updated">-</strong></span>
+            <span>Scores follow the Assignment 2 Part B finding rubric.</span>
+          </div>
         </div>
       </header>
 
-      <section class="stats-grid" aria-label="Leaderboard stats">
-        <article class="stat-card">
-          <p class="stat-label">Students</p>
-          <p class="stat-value" id="stat-students">0</p>
-        </article>
-        <article class="stat-card">
-          <p class="stat-label">Findings</p>
-          <p class="stat-value" id="stat-findings">0</p>
-        </article>
-        <article class="stat-card">
-          <p class="stat-label">Rubric Score Sum</p>
-          <p class="stat-value" id="stat-points">0</p>
-        </article>
-      </section>
-
-      <section class="panel">
+      <section class="panel bonus-panel">
         <div class="panel-head">
           <div class="panel-title-stack">
-            <h2>How Scores Work</h2>
-            <p class="panel-caption">This dashboard uses the same finding-level rubric logic used for Assignment 2 Part B impact scoring.</p>
+            <h2>Bonus Rankings</h2>
+            <p class="panel-caption">
+              The top three teams by highest-severity vulnerability and the top three teams by validated finding count receive +10 bonus marks, capped at a total of 100.
+            </p>
           </div>
         </div>
-        <div class="scoring-grid">
-          <article class="score-card score-card-formula">
-            <p class="score-card-label">Formula</p>
-            <p class="score-formula" id="scoring-formula">Loading scoring model...</p>
+        <div class="ranking-grid">
+          <article class="ranking-card">
+            <p class="score-card-label">Highest Severity</p>
+            <ol class="ranking-list" id="severity-ranking">
+              <li>Loading rankings...</li>
+            </ol>
           </article>
-          <article class="score-card">
-            <p class="score-card-label">Severity</p>
-            <ul class="score-list" id="severity-score-list">
-              <li>Loading...</li>
-            </ul>
-          </article>
-          <article class="score-card">
-            <p class="score-card-label">Impact Evidence</p>
-            <ul class="score-list" id="impact-score-list">
-              <li>Loading...</li>
-            </ul>
-          </article>
-          <article class="score-card">
-            <p class="score-card-label">Novelty</p>
-            <ul class="score-list" id="novelty-score-list">
-              <li>Loading...</li>
-            </ul>
+          <article class="ranking-card">
+            <p class="score-card-label">Most Findings</p>
+            <ol class="ranking-list" id="count-ranking">
+              <li>Loading rankings...</li>
+            </ol>
           </article>
         </div>
       </section>
 
       <section class="panel panel-table">
-        <div class="panel-head panel-head-table">
+        <div class="panel-head">
           <div class="panel-title-stack">
             <h2>Vulnerability Records</h2>
-            <p class="panel-caption">Styled for desktop and mobile with severity highlights.</p>
-            <div class="severity-legend" aria-label="Severity legend">
-              <span class="sev-badge sev-critical">Critical</span>
-              <span class="sev-badge sev-high">High</span>
-              <span class="sev-badge sev-medium">Medium</span>
-              <span class="sev-badge sev-low">Low</span>
-            </div>
+            <p class="panel-caption">Filter records by zero-day status. Severity badges show the platform or vendor classification when available, otherwise the course-side assessment.</p>
           </div>
-          <a href="data/entries.json" class="subtle-link">Edit data file</a>
+          <div class="table-controls" role="tablist" aria-label="Zero-day table filter">
+            <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">
+              All
+            </button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="zero-day">
+              Zero-day
+            </button>
+            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="non-zero-day">
+              Non-zero-day
+            </button>
+          </div>
         </div>
         <div class="table-wrap">
           <table>
             <thead>
               <tr>
                 <th>Finding</th>
-                <th>Internal Severity</th>
-                <th>External Severity</th>
+                <th>Notes</th>
+                <th>Severity</th>
+                <th>Tutorial</th>
+                <th>Group</th>
+                <th>Zero-day</th>
                 <th>Rubric Score</th>
-                <th>Breakdown</th>
-                <th>Main Student(s)</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody id="leaderboard-body">
               <tr>
-                <td colspan="7">Loading records...</td>
+                <td colspan="8">Loading records...</td>
               </tr>
             </tbody>
           </table>
         </div>
-      </section>
-
-      <section class="panel">
-        <div class="panel-head">
-          <h2>Recent Discoveries</h2>
-          <p class="panel-caption">Most recent validated findings across the class.</p>
-        </div>
-        <ul id="recent-feed" class="feed-list">
-          <li class="feed-item">Loading findings...</li>
-        </ul>
       </section>
     </main>
 

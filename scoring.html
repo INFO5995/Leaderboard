@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="INFO5995 scoring guide for security discovery leaderboard findings."
+    />
+    <title>INFO5995 Scoring Guide</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page-shell">
+      <header class="site-header">
+        <nav class="top-nav" aria-label="Leaderboard navigation">
+          <a class="brand" href="index.html">INFO5995</a>
+          <a class="nav-link" href="index.html">Records</a>
+        </nav>
+        <div class="header-copy">
+          <p class="eyebrow" id="season-label">-</p>
+          <h1>Scoring Guide</h1>
+          <p class="hero-copy">
+            Finding scores are rubric-aligned impact scores for the leaderboard. They are not assignment bonus marks.
+          </p>
+          <div class="header-meta">
+            <span>Last updated <strong id="last-updated">-</strong></span>
+          </div>
+        </div>
+      </header>
+
+      <section class="panel scoring-panel">
+        <div class="panel-head">
+          <div class="panel-title-stack">
+            <h2>Scoring Model</h2>
+            <p class="panel-caption">Each validated finding is scored from severity, impact evidence, and novelty.</p>
+          </div>
+        </div>
+        <div class="scoring-grid">
+          <article class="score-card score-card-formula">
+            <p class="score-card-label">Formula</p>
+            <p class="score-formula" id="scoring-formula">Loading scoring model...</p>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Severity</p>
+            <ul class="score-list" id="severity-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Impact Evidence</p>
+            <ul class="score-list" id="impact-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+          <article class="score-card">
+            <p class="score-card-label">Novelty</p>
+            <ul class="score-list" id="novelty-score-list">
+              <li>Loading...</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="panel notes-panel">
+        <div class="panel-title-stack">
+          <h2>Privacy-Sensitive Disclosure Logic</h2>
+          <p class="panel-caption">
+            For disclosures where technical details are withheld, the leaderboard uses privately held evidence and vendor confirmation to score impact without publishing exploit steps, affected endpoints, or examples of exposed personal data.
+          </p>
+          <ul class="logic-list">
+            <li>
+              <span class="score-chip">Severity</span>
+              High is used when private evidence shows unauthorized access to sensitive personal information for other users. Critical is reserved for broad, easily repeatable exposure at substantial user-base scale, or where the receiving platform or vendor classifies it as Critical.
+            </li>
+            <li>
+              <span class="score-chip">Impact</span>
+              The impact evidence score is 2 when the affected data class, access path, vendor confirmation, and remediation evidence are documented privately.
+            </li>
+            <li>
+              <span class="score-chip">Novelty</span>
+              The novelty score is 2 when the disclosure is a confirmed zero-day: no prior public report or known duplicate is available, and the affected organization confirmed and fixed the issue.
+            </li>
+            <li>
+              <span class="score-chip">Display</span>
+              Public records remain intentionally generic: the page can show confirmation, fix status, severity, and score logic, but not sensitive data types, PoCs, logs, or implementation details.
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel notes-panel">
+        <div class="panel-title-stack">
+          <h2>Display Notes</h2>
+          <p class="panel-caption">
+            Zero-day status is shown from the data file when explicitly provided. If it is not provided, the page infers it from the novelty score where possible: 2 is treated as zero-day, 1 as non-zero-day, and unsupported values as unknown.
+          </p>
+          <p class="panel-caption">
+            The records table shows one severity value. Platform or vendor severity is preferred when available; otherwise the page marks the value as internally assessed and uses the documented scoring rationale.
+          </p>
+        </div>
+      </section>
+    </main>
+
+    <noscript>
+      <p class="noscript-message">Enable JavaScript to view the scoring model.</p>
+    </noscript>
+
+    <script src="script.js"></script>
+  </body>
+</html>
