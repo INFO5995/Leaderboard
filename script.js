@@ -17,6 +17,8 @@ const state = {
   findings: []
 };
 
+const RANKING_LIMIT = 10;
+
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
@@ -294,7 +296,7 @@ function bonusRankRows(students) {
 
       return findingTimestamp(b.topFinding) - findingTimestamp(a.topFinding);
     })
-    .slice(0, 3);
+    .slice(0, RANKING_LIMIT);
 
   const count = rankedTeams
     .filter((row) => row.findingCount > 0)
@@ -310,7 +312,7 @@ function bonusRankRows(students) {
 
       return b.topFinding.points - a.topFinding.points;
     })
-    .slice(0, 3);
+    .slice(0, RANKING_LIMIT);
 
   return { severity, count };
 }
@@ -328,13 +330,13 @@ function renderRankingList(element, rows, mode) {
     return;
   }
 
-  rows.forEach((row) => {
+  rows.forEach((row, index) => {
     const item = document.createElement("li");
     item.className = "ranking-item";
 
     const rank = document.createElement("span");
     rank.className = "ranking-rank";
-    rank.textContent = `#${rows.indexOf(row) + 1}`;
+    rank.textContent = rankingLabel(rows, index, mode);
 
     const body = document.createElement("div");
     body.className = "ranking-body";
@@ -346,17 +348,34 @@ function renderRankingList(element, rows, mode) {
     const detail = document.createElement("p");
     detail.className = "ranking-detail";
     if (mode === "severity") {
-      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10: ${
-        row.topFinding.title
-      }`;
+      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10`;
     } else {
       detail.textContent = `${row.findingCount} validated finding${row.findingCount === 1 ? "" : "s"}`;
     }
 
-    body.append(title, detail);
+    const students = document.createElement("p");
+    students.className = "ranking-students";
+    students.textContent = leadStudentLabel(resolveTeamStudents(row.student));
+
+    body.append(title, students, detail);
     item.append(rank, body);
     element.append(item);
   });
+}
+
+function rankingMetric(row, mode) {
+  if (mode === "severity") {
+    return Number(row.topFinding?.points ?? 0);
+  }
+
+  return Number(row.findingCount ?? 0);
+}
+
+function rankingLabel(rows, index, mode) {
+  const metric = rankingMetric(rows[index], mode);
+  const rank = rows.filter((row) => rankingMetric(row, mode) > metric).length + 1;
+  const tied = rows.filter((row) => rankingMetric(row, mode) === metric).length > 1;
+  return `${tied ? "=" : "#"}${rank}`;
 }
 
 function renderBonusRankings(students) {
@@ -393,6 +412,19 @@ function buildFindingCell(finding) {
   meta.textContent = `${finding.type || "Finding"} • ${finding.program || "Program withheld"}`;
 
   wrap.append(title, meta);
+  return wrap;
+}
+
+function buildLeadStudentsCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "students-stack";
+
+  const main = document.createElement("p");
+  main.className = "students-main";
+  main.textContent = leadStudentLabel(finding.mainStudents);
+  main.title = finding.mainStudents || "";
+
+  wrap.append(main);
   return wrap;
 }
 
@@ -438,6 +470,77 @@ function buildScoreCell(finding) {
   sub.title = formatBreakdown(finding.scoreBreakdown);
 
   wrap.append(main, sub);
+  return wrap;
+}
+
+function severitySourceKind(finding) {
+  const source = normalizeType(firstNonEmpty(finding.severitySource));
+  const hasExternalSeverity = firstNonEmpty(
+    finding.externalSeverity,
+    finding.external_severity,
+    finding.severityExternal,
+    finding.severity_external
+  );
+
+  if (
+    hasExternalSeverity ||
+    source.includes("external") ||
+    source.includes("platform") ||
+    source.includes("vendor")
+  ) {
+    return "vendor";
+  }
+
+  if (
+    source.includes("course") ||
+    source.includes("internal") ||
+    source.includes("assessed")
+  ) {
+    return "course";
+  }
+
+  return "unknown";
+}
+
+function severitySourceLabel(kind) {
+  if (kind === "vendor") {
+    return "Platform";
+  }
+
+  if (kind === "course") {
+    return "Course";
+  }
+
+  return "Unknown";
+}
+
+function buildScoreSourceCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "score-source-stack";
+
+  const kind = severitySourceKind(finding);
+  const source = firstNonEmpty(finding.severitySource);
+  const rationale = firstNonEmpty(finding.severityRationale);
+  const pill = document.createElement("span");
+  pill.className = `source-pill source-${kind}`;
+  pill.textContent = severitySourceLabel(kind);
+
+  const details = [source, rationale].filter(Boolean).join(": ");
+  if (details) {
+    pill.title = details;
+  }
+
+  const note = document.createElement("span");
+  note.className = "source-note";
+  if (kind === "vendor") {
+    note.textContent = "Original severity";
+  } else if (kind === "course") {
+    note.textContent = "May adjust";
+  } else {
+    note.textContent = "Not documented";
+  }
+
+  wrap.append(pill, note);
   return wrap;
 }
 
@@ -585,6 +688,20 @@ function normalizeNameList(value) {
   return [];
 }
 
+function resolveTeamStudents(student) {
+  const names = normalizeNameList(student.mainStudents ?? student.main_students ?? student.students);
+  if (names.length > 0) {
+    return names.join(", ");
+  }
+
+  return firstNonEmpty(student.studentName, student.student_name, student.name, "Unknown");
+}
+
+function leadStudentLabel(value) {
+  const text = firstNonEmpty(value);
+  return text || "Not listed";
+}
+
 function resolveInternalSeverity(finding) {
   return (
     firstNonEmpty(
@@ -620,8 +737,8 @@ function resolveSeveritySource(finding) {
       finding.external_severity ? "External platform" : "",
       finding.severityExternal ? "External platform" : "",
       finding.severity_external ? "External platform" : "",
-      finding.internalSeverity ? "Internally assessed" : "",
-      finding.internal_severity ? "Internally assessed" : ""
+      finding.internalSeverity ? "Course-side assessed" : "",
+      finding.internal_severity ? "Course-side assessed" : ""
     ) || "Unknown"
   );
 }
@@ -812,7 +929,50 @@ function normalizeZeroDayValue(value) {
   return "";
 }
 
+function isDuplicateStatus(value) {
+  const normalized = normalizeType(value);
+  if (!normalized) {
+    return false;
+  }
+
+  if (["duplicate", "dupe", "duplicated", "zero_day_duplicate", "zeroday_duplicate"].includes(normalized)) {
+    return true;
+  }
+
+  if (
+    normalized.includes("not_duplicate") ||
+    normalized.includes("non_duplicate") ||
+    normalized.includes("not_a_duplicate")
+  ) {
+    return false;
+  }
+
+  return normalized.split("_").includes("duplicate") || normalized.split("_").includes("duplicated");
+}
+
+function hasDuplicateSignal(finding) {
+  return (
+    Boolean(resolveDuplicateReportId(finding)) ||
+    [
+      finding.reportStatus,
+      finding.hackerOneStatus,
+      finding.status,
+      finding.originalityStatus,
+      finding.originality_status,
+      finding.zeroDayStatus,
+      finding.zero_day_status,
+      finding.novelty,
+      finding.noveltyLabel,
+      finding.novelty_label
+    ].some(isDuplicateStatus)
+  );
+}
+
 function resolveZeroDayStatus(finding) {
+  if (hasDuplicateSignal(finding)) {
+    return "zero-day";
+  }
+
   const explicitValues = [
     finding.zeroDay,
     finding.zero_day,
@@ -932,6 +1092,94 @@ function zeroDayBadge(status) {
   return badge;
 }
 
+function resolveOriginalityStatus(finding, zeroDayStatus) {
+  const explicit = firstNonEmpty(
+    finding.originalityStatus,
+    finding.originality_status,
+    finding.discoveryStatus,
+    finding.discovery_status,
+    finding.disclosureStatus,
+    finding.disclosure_status,
+    finding.novelty,
+    finding.noveltyLabel,
+    finding.novelty_label
+  );
+  const normalized = normalizeType(explicit);
+
+  if (hasDuplicateSignal(finding)) {
+    return {
+      kind: "duplicate",
+      label: "Zero-day duplicate",
+      detail: explicit || "Confirmed duplicate of a non-public report."
+    };
+  }
+
+  if (
+    normalized.includes("candidate") ||
+    normalized.includes("under_review") ||
+    normalized.includes("unconfirmed")
+  ) {
+    return {
+      kind: "candidate",
+      label: "Candidate",
+      detail: explicit || "Course-side zero-day candidate; vendor confirmation not visible."
+    };
+  }
+
+  if (
+    normalized.includes("public") ||
+    normalized.includes("known") ||
+    normalized.includes("one_day") ||
+    normalized.includes("non_zero_day") ||
+    normalized.includes("not_zero_day")
+  ) {
+    return {
+      kind: "known",
+      label: "Known/public",
+      detail: explicit || "Already publicly disclosed or otherwise not treated as first disclosure."
+    };
+  }
+
+  const noveltyScore = resolveScorePart(
+    finding,
+    "noveltyScore",
+    "novelty_score",
+    "noveltyPoints",
+    "novelty_points"
+  );
+  if (Number.isFinite(noveltyScore) && noveltyScore >= 2 && zeroDayStatus === "zero-day") {
+    return {
+      kind: "first",
+      label: "First disclosure",
+      detail: explicit || "Non-public issue with full novelty credit."
+    };
+  }
+
+  if (zeroDayStatus === "non-zero-day") {
+    return {
+      kind: "known",
+      label: "Known/public",
+      detail: explicit || "Not treated as a zero-day."
+    };
+  }
+
+  return {
+    kind: "unknown",
+    label: explicit || "Unknown",
+    detail: explicit || "Originality is not documented yet."
+  };
+}
+
+function originalityBadge(originality) {
+  const kind = originality?.kind || "unknown";
+  const badge = document.createElement("span");
+  badge.className = `originality-badge originality-${kind}`;
+  badge.textContent = originality?.label || "Unknown";
+  badge.title = originality?.detail || "";
+  badge.setAttribute("aria-label", `Originality: ${badge.textContent}`);
+  return badge;
+}
+
 function setupFilterTabs() {
   els.filterTabs.forEach((tab) => {
     tab.addEventListener("click", () => {
@@ -952,13 +1200,13 @@ function setupFilterTabs() {
 function updateFilterTabs() {
   const counts = {
     all: state.findings.length,
-    "zero-day": state.findings.filter((finding) => finding.zeroDayStatus === "zero-day").length,
-    "non-zero-day": state.findings.filter((finding) => finding.zeroDayStatus === "non-zero-day").length
+    first: state.findings.filter((finding) => finding.originalityStatus.kind === "first").length,
+    duplicate: state.findings.filter((finding) => finding.originalityStatus.kind === "duplicate").length
   };
   const labels = {
     all: "All",
-    "zero-day": "Zero-day",
-    "non-zero-day": "Non-zero-day"
+    first: "First disclosure",
+    duplicate: "Duplicates"
   };
 
   els.filterTabs.forEach((tab) => {
@@ -972,16 +1220,16 @@ function getFilteredFindings() {
     return state.findings;
   }
 
-  return state.findings.filter((finding) => finding.zeroDayStatus === state.activeFilter);
+  return state.findings.filter((finding) => finding.originalityStatus.kind === state.activeFilter);
 }
 
 function emptyFilterMessage() {
-  if (state.activeFilter === "zero-day") {
-    return "No zero-day vulnerability entries yet.";
+  if (state.activeFilter === "first") {
+    return "No first-disclosure zero-day entries yet.";
   }
 
-  if (state.activeFilter === "non-zero-day") {
-    return "No non-zero-day vulnerability entries yet.";
+  if (state.activeFilter === "duplicate") {
+    return "No zero-day duplicate entries yet.";
   }
 
   return "No vulnerability entries yet.";
@@ -993,7 +1241,7 @@ function renderLeaderboard(findings) {
   if (findings.length === 0) {
     const row = document.createElement("tr");
     row.append(makeCell(emptyFilterMessage(), ""));
-    row.firstElementChild.colSpan = 8;
+    row.firstElementChild.colSpan = 11;
     els.leaderboardBody.append(row);
     return;
   }
@@ -1008,6 +1256,10 @@ function renderLeaderboard(findings) {
         value: buildFindingCell(finding)
       },
       {
+        label: "Lead Students",
+        value: buildLeadStudentsCell(finding)
+      },
+      {
         label: "Notes",
         value: buildNotesCell(finding)
       },
@@ -1015,9 +1267,14 @@ function renderLeaderboard(findings) {
         label: "Severity",
         value: buildSeverityCell(finding)
       },
+      {
+        label: "Score Source",
+        value: buildScoreSourceCell(finding)
+      },
       { label: "Tutorial", value: formatLabelNumber("Tutorial", finding.tutorialNumber) },
       { label: "Group", value: formatLabelNumber("Group", finding.groupNumber) },
       { label: "Zero-day", value: zeroDayBadge(finding.zeroDayStatus) },
+      { label: "Originality", value: originalityBadge(finding.originalityStatus) },
       { label: "Rubric Score", value: buildScoreCell(finding) },
       { label: "Date", value: formatDate(finding.date) }
     ];
@@ -1037,6 +1294,15 @@ function flattenFindings(students) {
 
   students.forEach((student) => {
     student.findings.forEach((finding) => {
+      const zeroDayStatus = resolveZeroDayStatus(finding);
+      if (zeroDayStatus !== "zero-day") {
+        return;
+      }
+      const originalityStatus = resolveOriginalityStatus(finding, zeroDayStatus);
+      if (originalityStatus.kind === "known") {
+        return;
+      }
+
       findings.push({
         ...finding,
         studentName: student.name || "Unknown",
@@ -1051,7 +1317,8 @@ function flattenFindings(students) {
         tutorialNumber: resolveTutorialNumber(finding, student),
         studentReportId: resolveStudentReportId(finding),
         duplicateReportId: resolveDuplicateReportId(finding),
-        zeroDayStatus: resolveZeroDayStatus(finding)
+        zeroDayStatus,
+        originalityStatus
       });
     });
   });
@@ -1073,7 +1340,7 @@ function showError(error) {
   els.leaderboardBody.innerHTML = "";
   const row = document.createElement("tr");
   const cell = document.createElement("td");
-  cell.colSpan = 8;
+  cell.colSpan = 11;
   cell.textContent = "Unable to load leaderboard data. Check data/entries.json.";
   row.append(cell);
   els.leaderboardBody.append(row);

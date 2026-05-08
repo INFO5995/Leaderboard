@@ -202,7 +202,7 @@ h2 {
 
 table {
   width: 100%;
-  min-width: 1040px;
+  min-width: 1240px;
   border-collapse: collapse;
 }
 
@@ -262,14 +262,17 @@ tbody tr:last-child td {
 }
 
 .finding-stack,
+.students-stack,
 .notes-stack,
 .severity-stack,
+.score-source-stack,
 .score-stack {
   display: grid;
   gap: 0.22rem;
 }
 
 .finding-title,
+.students-main,
 .score-main {
   margin: 0;
   color: var(--text);
@@ -277,6 +280,7 @@ tbody tr:last-child td {
 }
 
 .finding-meta,
+.ranking-students,
 .score-sub {
   margin: 0;
   color: var(--muted);
@@ -296,6 +300,17 @@ tbody tr:last-child td {
 .notes-stack {
   min-width: 148px;
   max-width: 220px;
+}
+
+.students-stack {
+  min-width: 150px;
+  max-width: 210px;
+}
+
+.students-main {
+  max-width: 210px;
+  font-size: 0.9rem;
+  line-height: 1.35;
 }
 
 .notes-link {
@@ -331,8 +346,14 @@ tbody tr:last-child td {
   min-width: 116px;
 }
 
+.score-source-stack {
+  min-width: 96px;
+  max-width: 140px;
+}
+
 .severity-source,
-.severity-reason {
+.severity-reason,
+.source-note {
   color: var(--muted);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.76rem;
@@ -345,8 +366,22 @@ tbody tr:last-child td {
   font-size: 0.78rem;
 }
 
+.source-note {
+  max-width: 130px;
+  font-family: "Inter", "Segoe UI", sans-serif;
+  font-size: 0.78rem;
+}
+
+.source-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
 .sev-badge,
-.zero-badge {
+.zero-badge,
+.originality-badge,
+.source-pill {
   display: inline-flex;
   align-items: center;
   border: 1px solid transparent;
@@ -357,6 +392,10 @@ tbody tr:last-child td {
   padding: 0.18rem 0.48rem;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.source-pill {
+  width: fit-content;
 }
 
 .sev-critical {
@@ -400,6 +439,49 @@ tbody tr:last-child td {
   background: #edf4ff;
   border-color: #b8cff9;
   color: var(--accent-strong);
+}
+
+.originality-first {
+  background: #e4f8ef;
+  border-color: #a7dfc6;
+  color: var(--low);
+}
+
+.originality-duplicate {
+  background: #edf4ff;
+  border-color: #b8cff9;
+  color: var(--accent-strong);
+}
+
+.originality-candidate {
+  background: #fff7d7;
+  border-color: #ecd479;
+  color: var(--medium);
+}
+
+.originality-known,
+.originality-unknown {
+  background: #eef2f7;
+  border-color: #cbd5e1;
+  color: var(--unknown);
+}
+
+.source-vendor {
+  background: #e8f0ff;
+  border-color: #b8cff9;
+  color: var(--accent-strong);
+}
+
+.source-course {
+  background: #fff7d7;
+  border-color: #ecd479;
+  color: var(--medium);
+}
+
+.source-unknown {
+  background: #eef2f7;
+  border-color: #cbd5e1;
+  color: var(--unknown);
 }
 
 .scoring-panel,
@@ -483,7 +565,8 @@ tbody tr:last-child td {
   font-size: 0.88rem;
 }
 
-.ranking-detail {
+.ranking-detail,
+.ranking-students {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
 }

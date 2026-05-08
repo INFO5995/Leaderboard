@@ -85,7 +85,7 @@
             </li>
             <li>
               <span class="score-chip">Novelty</span>
-              The novelty score is 2 when the disclosure is a confirmed zero-day: no prior public report or known duplicate is available, and the affected organization confirmed and fixed the issue.
+              Zero-day means the issue was not publicly disclosed at submission time. A confirmed duplicate of a non-public vendor or platform report is still displayed as zero-day, but receives novelty score 1 rather than the full novelty score. Duplicate entries require a countable duplicate/original status such as Triaged, Retesting, Resolved, or Closed.
             </li>
             <li>
               <span class="score-chip">Display</span>
@@ -99,10 +99,10 @@
         <div class="panel-title-stack">
           <h2>Display Notes</h2>
           <p class="panel-caption">
-            Zero-day status is shown from the data file when explicitly provided. If it is not provided, the page infers it from the novelty score where possible: 2 is treated as zero-day, 1 as non-zero-day, and unsupported values as unknown.
+            The public leaderboard only includes validated zero-day vulnerabilities. Already-public vulnerabilities are excluded from the table and kept only in private review notes with disclosure links. Zero-day status and originality are displayed as separate fields: zero-day answers whether the vulnerability was already publicly disclosed at submission time, while originality distinguishes first disclosures and zero-day duplicates. Confirmed duplicates of non-public reports are therefore zero-day, but not first disclosures. Duplicate/original tickets marked New, Pending program review, needs more info, Informative, Informational, or with hidden status are withheld until countable confirmation is visible.
           </p>
           <p class="panel-caption">
-            The records table shows one severity value. Platform or vendor severity is preferred when available; otherwise the page marks the value as internally assessed and uses the documented scoring rationale.
+            The records table shows a separate score-source column. Platform duplicate/original score means visible platform severity, especially the duplicate/original ticket's severity, is being used for the severity component. Course-side score means the course team assigned a conservative rubric score from private evidence. Course-side scores should be at least as strict as platform scoring and may be adjusted as more reports are reviewed.
           </p>
         </div>
       </section>

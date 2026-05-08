@@ -1,7 +1,7 @@
 {
   "title": "INFO5995 Security Discovery Leaderboard",
   "season": "2026 Semester 1",
-  "lastUpdated": "2026-04-29",
+  "lastUpdated": "2026-05-09",
   "scoringModel": {
     "formula": "Final finding score = Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10.",
     "severityTiers": [
@@ -52,7 +52,7 @@
       },
       {
         "score": 1,
-        "detail": "Valid confirmed non-zero-day"
+        "detail": "Valid zero-day duplicate of a non-public report"
       },
       {
         "score": 0,
@@ -74,14 +74,14 @@
       "tutorialNumber": 14,
       "groupNumber": 1,
       "mainStudents": "Maurice Ng",
-      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting and private platform duplicate confirmations.",
+      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, and one confirmed non-first zero-day report.",
       "findings": [
         {
           "type": "Disclosure",
           "title": "Sensitive data storage disclosure reported through coordination channel (case A)",
           "program": "Affected organization withheld pending remediation",
           "internalSeverity": "Critical",
-          "severitySource": "Internally assessed",
+          "severitySource": "Course-side assessed",
           "severityRationale": "CVSS above 9, sensitive data in storage, confirmed zero-day, and not fixed yet.",
           "date": "2026-04-29",
           "reportPlatform": "Coordinated disclosure channel",
@@ -100,7 +100,7 @@
           "title": "Sensitive data storage disclosure reported through coordination channel (case B)",
           "program": "Affected organization withheld pending remediation",
           "internalSeverity": "Critical",
-          "severitySource": "Internally assessed",
+          "severitySource": "Course-side assessed",
           "severityRationale": "CVSS above 9, sensitive data in storage, confirmed zero-day, and not fixed yet.",
           "date": "2026-04-29",
           "reportPlatform": "Coordinated disclosure channel",
@@ -124,14 +124,14 @@
           "date": "2026-04-02",
           "reportPlatform": "Private disclosure platform",
           "reportStatus": "Duplicate",
-          "originalityStatus": "Confirmed non-zero-day",
+          "originalityStatus": "Zero-day duplicate",
           "evidenceNote": "Private platform duplicate confirmation; affected organization and technical details withheld.",
           "severityScore": 6,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
-          "zeroDay": false,
+          "zeroDay": true,
           "points": 9,
-          "scoreReason": "Private platform triage confirmed this as a duplicate. CVSS 9.1 Critical and account takeover impact support Critical severity; novelty is non-zero-day due to duplicate status."
+          "scoreReason": "Private platform triage confirmed this as a duplicate. CVSS 9.1 Critical and account takeover impact support Critical severity. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
         },
         {
           "type": "Bug Bounty",
@@ -143,14 +143,33 @@
           "date": "2026-04-02",
           "reportPlatform": "Private disclosure platform",
           "reportStatus": "Duplicate",
-          "originalityStatus": "Confirmed non-zero-day",
+          "originalityStatus": "Zero-day duplicate",
           "evidenceNote": "Private platform duplicate confirmation; affected organization and technical details withheld.",
           "severityScore": 6,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
-          "zeroDay": false,
+          "zeroDay": true,
           "points": 9,
-          "scoreReason": "Private platform triage confirmed this as a duplicate. CVSS 9.1 Critical and authentication bypass impact support Critical severity; novelty is non-zero-day due to duplicate status."
+          "scoreReason": "Private platform triage confirmed this as a duplicate. CVSS 9.1 Critical and authentication bypass impact support Critical severity. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        },
+        {
+          "type": "Disclosure",
+          "title": "Mobile VoIP credential storage issue confirmed non-first report",
+          "program": "Affected organization withheld",
+          "internalSeverity": "Medium",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Affected-organization confirmation indicates Medium severity for sensitive credential storage in a mobile application with local-device prerequisites.",
+          "date": "2026-05-05",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Confirmed by affected organization; not first to report",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "Affected organization and technical details withheld. Coordinator confirmed this is a zero-day, but not first to report.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 6,
+          "scoreReason": "Affected-organization confirmation supports Medium severity for mobile credential storage with clear sensitive-data impact and local-device prerequisites. It is treated as a zero-day duplicate/non-first report because no public disclosure was found, but the student was not first to report."
         }
       ]
     },
@@ -159,15 +178,18 @@
       "cohort": "INFO5995",
       "tutorialNumber": 14,
       "groupNumber": 2,
-      "mainStudents": "Strick Sheng",
-      "notes": "Technical details and affected organization are withheld. The organization confirmed the disclosure and fixed the issue.",
+      "mainStudents": [
+        "Strick Sheng",
+        "Ritveek Rana"
+      ],
+      "notes": "Technical details and affected organizations are withheld. Evidence includes one confirmed and fixed disclosure and one private platform duplicate.",
       "findings": [
         {
           "type": "Disclosure",
           "title": "Access control disclosure confirmed and fixed",
           "program": "Affected organization withheld",
           "internalSeverity": "High",
-          "severitySource": "Internally assessed",
+          "severitySource": "Course-side assessed",
           "severityRationale": "Sensitive personal information exposure, confirmed and fixed by the affected organization; technical details withheld.",
           "mainStudents": "Strick Sheng",
           "date": "2026-03-03",
@@ -180,6 +202,26 @@
           "zeroDay": true,
           "points": 8.5,
           "scoreReason": "High-severity access control disclosure with strong impact evidence from sensitive personal information exposure, affected-organization confirmation, and fix. Technical details and the affected organization are withheld pending approval, and novelty is treated as a confirmed zero-day."
+        },
+        {
+          "type": "Bug Bounty",
+          "title": "Client-side CMS token exposure confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Medium",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Current platform card shows Medium (6.9), but duplicate/original severity is not visible. Course-side assessment keeps this at Medium for unauthorized read access to unpublished CMS draft records.",
+          "mainStudents": "Ritveek Rana",
+          "date": "2026-04-29",
+          "reportPlatform": "External bug bounty platform",
+          "reportStatus": "Duplicate",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "External platform confirmed duplicate status; duplicate/original severity is not visible.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 6,
+          "scoreReason": "External platform triage confirmed the student's report as a duplicate. Duplicate/original severity is N/A, so course-side assessment keeps Medium severity for exposed client-side CMS credentials enabling unauthorized read access to unpublished draft records. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
         }
       ]
     },
@@ -195,7 +237,7 @@
         "Yudong Wei",
         "Haoyang Wu"
       ],
-      "notes": "External platform report is a confirmed duplicate and currently treated as a validated non-zero-day finding. Affected project and report IDs are temporarily withheld.",
+      "notes": "External platform report is a confirmed duplicate and currently treated as a validated zero-day duplicate. Affected project and report IDs are temporarily withheld.",
       "findings": [
         {
           "type": "Bug Bounty",
@@ -207,14 +249,14 @@
           "date": "2026-04-23",
           "reportPlatform": "External bug bounty platform",
           "reportStatus": "Duplicate",
-          "originalityStatus": "Confirmed non-zero-day",
+          "originalityStatus": "Zero-day duplicate",
           "evidenceNote": "External platform confirmed duplicate status; affected project and report IDs are temporarily withheld.",
           "severityScore": 4.5,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
-          "zeroDay": false,
+          "zeroDay": true,
           "points": 7.5,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The duplicate metadata shows High severity (7.7), with strong impact evidence. Affected project and report IDs are temporarily withheld to avoid copying."
+          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The duplicate metadata shows High severity (7.7), with strong impact evidence. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring. Affected project and report IDs are temporarily withheld to avoid copying."
         }
       ]
     },
@@ -231,94 +273,55 @@
         "Victor Suseno",
         "Miyo Zhang"
       ],
-      "notes": "External platform reports are confirmed duplicates and currently treated as non-zero-day findings. Affected project, components, and report IDs are temporarily withheld.",
+      "notes": "External platform reports are confirmed duplicates and currently treated as zero-day duplicates. Severity shown for these records follows the duplicate/original report when visible; otherwise it is course-side assessed conservatively. Affected project, components, and report IDs are temporarily withheld.",
       "findings": [
         {
           "type": "Bug Bounty",
-          "title": "Critical authorization bypass confirmed duplicate",
+          "title": "File-download authorization bypass confirmed duplicate",
           "program": "Affected bug bounty program withheld",
-          "internalSeverity": "Critical",
-          "externalSeverity": "Critical",
-          "date": "2026-04-25",
+          "internalSeverity": "Medium",
+          "externalSeverity": "Medium",
+          "severityRationale": "Duplicate/original severity is visible as Medium (6.3). The student's current High card is not used.",
+          "date": "2026-04-28",
           "reportPlatform": "External bug bounty platform",
           "reportStatus": "Duplicate",
-          "originalityStatus": "Pending review",
-          "severityScore": 6,
-          "impactEvidenceScore": 2,
-          "noveltyScore": 1,
-          "zeroDay": false,
-          "points": 9,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The platform card shows Critical severity, with strong authorization-impact evidence. Affected project, component, and report IDs are temporarily withheld to avoid copying."
-        },
-        {
-          "type": "Bug Bounty",
-          "title": "Missing authorization issue confirmed duplicate",
-          "program": "Affected bug bounty program withheld",
-          "internalSeverity": "High",
-          "externalSeverity": "High",
-          "date": "2026-04-25",
-          "reportPlatform": "External bug bounty platform",
-          "reportStatus": "Duplicate",
-          "originalityStatus": "Pending review",
-          "severityScore": 4.5,
-          "impactEvidenceScore": 2,
-          "noveltyScore": 1,
-          "zeroDay": false,
-          "points": 7.5,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The platform card shows High severity, with strong authorization-impact evidence. Affected project, component, and report IDs are temporarily withheld to avoid copying."
-        },
-        {
-          "type": "Bug Bounty",
-          "title": "Consensus authorization issue confirmed duplicate",
-          "program": "Affected bug bounty program withheld",
-          "internalSeverity": "High",
-          "externalSeverity": "High",
-          "date": "2026-04-24",
-          "reportPlatform": "External bug bounty platform",
-          "reportStatus": "Duplicate",
-          "originalityStatus": "Pending review",
-          "severityScore": 4.5,
-          "impactEvidenceScore": 2,
-          "noveltyScore": 1,
-          "zeroDay": false,
-          "points": 7.5,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The platform card shows High severity, with strong consensus-impact evidence. Affected project, component, and report IDs are temporarily withheld to avoid copying."
-        },
-        {
-          "type": "Bug Bounty",
-          "title": "Stale authorization state issue confirmed duplicate",
-          "program": "Affected bug bounty program withheld",
-          "internalSeverity": "High",
-          "externalSeverity": "High",
-          "date": "2026-04-29",
-          "reportPlatform": "External bug bounty platform",
-          "reportStatus": "Duplicate",
-          "originalityStatus": "Pending review",
+          "originalityStatus": "Zero-day duplicate",
           "evidenceNote": "External platform confirmed duplicate status; affected project and report IDs are temporarily withheld.",
-          "severityScore": 4.5,
+          "severityScore": 3,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
-          "zeroDay": false,
-          "points": 7.5,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The platform card shows High severity, with strong authorization-state impact evidence. Affected project, component, and report IDs are temporarily withheld to avoid copying."
-        },
+          "zeroDay": true,
+          "points": 6,
+          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The visible duplicate/original severity is Medium (6.3), so the student's current High card is not used. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring. Affected project and report IDs are temporarily withheld to avoid copying."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 33 Group 8",
+      "cohort": "INFO5995",
+      "tutorialNumber": 33,
+      "groupNumber": 8,
+      "mainStudents": "Hangyi Li",
+      "notes": "External platform report is a confirmed duplicate and currently treated as a validated zero-day duplicate. Affected project and report IDs are temporarily withheld.",
+      "findings": [
         {
           "type": "Bug Bounty",
-          "title": "Time-of-check authorization issue confirmed duplicate",
+          "title": "Smart-contract withdrawal restriction issue confirmed duplicate",
           "program": "Affected bug bounty program withheld",
-          "internalSeverity": "High",
-          "externalSeverity": "High",
-          "date": "2026-04-29",
+          "internalSeverity": "Low",
+          "externalSeverity": "Low",
+          "severityRationale": "Platform duplicate/original metadata shows Low severity.",
+          "date": "2026-05-09",
           "reportPlatform": "External bug bounty platform",
           "reportStatus": "Duplicate",
-          "originalityStatus": "Pending review",
-          "evidenceNote": "External platform confirmed duplicate status and High severity; affected project and report IDs are temporarily withheld.",
-          "severityScore": 4.5,
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "External platform original-report details show Low severity; affected project and report IDs are temporarily withheld.",
+          "severityScore": 1.5,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
-          "zeroDay": false,
-          "points": 7.5,
-          "scoreReason": "External platform triage confirmed the student's report as a duplicate. The platform card shows High severity, with strong authorization-timing impact evidence. Affected project, component, and report IDs are temporarily withheld to avoid copying."
+          "zeroDay": true,
+          "points": 4.5,
+          "scoreReason": "External platform evidence links the student's report to a duplicate/original report with Low severity. The student's High/Critical self-assessment is not used. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
         }
       ]
     }

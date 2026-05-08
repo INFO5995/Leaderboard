@@ -1,112 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="INFO5995 leaderboard for student security findings like bug bounties and CVEs."
-    />
-    <title>INFO5995 Security Findings</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-  </head>
-  <body>
-    <main class="page-shell">
-      <header class="site-header">
-        <nav class="top-nav" aria-label="Leaderboard navigation">
-          <a class="brand" href="index.html">INFO5995</a>
-          <a class="nav-link" href="scoring.html">Scoring guide</a>
-        </nav>
-        <div class="header-copy">
-          <p class="eyebrow" id="season-label">-</p>
-          <h1 id="page-title">Security Discovery Leaderboard</h1>
-          <p class="hero-copy">
-            Validated security findings from Semester 1. Affected projects, report identifiers, and technical details are temporarily withheld during assessment.
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="INFO5995 leaderboard for student security findings like bug bounties and CVEs." />
+  <title>INFO5995 Security Findings</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+  <main class="page-shell">
+    <header class="site-header">
+      <nav class="top-nav" aria-label="Leaderboard navigation">
+        <a class="brand" href="index.html">INFO5995</a>
+        <a class="nav-link" href="scoring.html">Scoring guide</a>
+      </nav>
+      <div class="header-copy">
+        <p class="eyebrow" id="season-label">-</p>
+        <h1 id="page-title">Security Discovery Leaderboard</h1>
+        <p class="hero-copy">
+          Validated security findings from Semester 1. Affected projects, report identifiers, and technical details are
+          temporarily withheld during assessment.
+        </p>
+        <div class="header-meta">
+          <span>Last updated <strong id="last-updated">-</strong></span>
+          <span>Scores follow the Assignment 2 Part B finding rubric.</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="panel bonus-panel">
+      <div class="panel-head">
+        <div class="panel-title-stack">
+          <h2>Bonus Rankings</h2>
+          <p class="panel-caption">
+            Top ten teams are shown for each ranking. The top three teams by highest rubric score and the top three
+            teams by validated finding count receive +10 bonus marks, capped at a total of 100.
           </p>
-          <div class="header-meta">
-            <span>Last updated <strong id="last-updated">-</strong></span>
-            <span>Scores follow the Assignment 2 Part B finding rubric.</span>
-          </div>
         </div>
-      </header>
+      </div>
+      <div class="ranking-grid">
+        <article class="ranking-card">
+          <p class="score-card-label">Highest Rubric Score</p>
+          <ol class="ranking-list" id="severity-ranking">
+            <li>Loading rankings...</li>
+          </ol>
+        </article>
+        <article class="ranking-card">
+          <p class="score-card-label">Most Findings</p>
+          <ol class="ranking-list" id="count-ranking">
+            <li>Loading rankings...</li>
+          </ol>
+        </article>
+      </div>
+    </section>
 
-      <section class="panel bonus-panel">
-        <div class="panel-head">
-          <div class="panel-title-stack">
-            <h2>Bonus Rankings</h2>
-            <p class="panel-caption">
-              The top three teams by highest rubric score and the top three teams by validated finding count receive +10 bonus marks, capped at a total of 100.
-            </p>
+    <section class="panel panel-table">
+      <div class="panel-head">
+        <div class="panel-title-stack">
+          <h2>Vulnerability Records</h2>
+          <p class="panel-caption">This leaderboard only lists validated zero-day vulnerabilities. Confirmed duplicates
+            of non-public reports are included as zero-day. Originality is shown separately so first disclosures and
+            zero-day duplicates are not conflated. Project names and report identifiers are temporarily withheld.</p>
+          <div class="source-legend" aria-label="Score source legend">
+            <span class="source-pill source-vendor">Platform</span>
+            <span class="source-pill source-course">Course</span>
           </div>
+          <p class="panel-caption">Duplicate entries require a countable duplicate/original status such as Triaged,
+            Retesting, Resolved, or Closed. New, pending review, needs-more-info, or status-hidden duplicates are
+            withheld until confirmed.</p>
         </div>
-        <div class="ranking-grid">
-          <article class="ranking-card">
-            <p class="score-card-label">Highest Rubric Score</p>
-            <ol class="ranking-list" id="severity-ranking">
-              <li>Loading rankings...</li>
-            </ol>
-          </article>
-          <article class="ranking-card">
-            <p class="score-card-label">Most Findings</p>
-            <ol class="ranking-list" id="count-ranking">
-              <li>Loading rankings...</li>
-            </ol>
-          </article>
+        <div class="table-controls" role="tablist" aria-label="Originality table filter">
+          <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">
+            All
+          </button>
+          <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="first">
+            First disclosure
+          </button>
+          <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="duplicate">
+            Duplicates
+          </button>
         </div>
-      </section>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Finding</th>
+              <th>Lead Students</th>
+              <th>Notes</th>
+              <th>Severity</th>
+              <th>Score Source</th>
+              <th>Tutorial</th>
+              <th>Group</th>
+              <th>Zero-day</th>
+              <th>Originality</th>
+              <th>Rubric Score</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody id="leaderboard-body">
+            <tr>
+              <td colspan="11">Loading records...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
 
-      <section class="panel panel-table">
-        <div class="panel-head">
-          <div class="panel-title-stack">
-            <h2>Vulnerability Records</h2>
-            <p class="panel-caption">Filter records by zero-day status. Project names and report identifiers are temporarily withheld; severity badges show the platform, vendor, or course-side assessment.</p>
-          </div>
-          <div class="table-controls" role="tablist" aria-label="Zero-day table filter">
-            <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">
-              All
-            </button>
-            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="zero-day">
-              Zero-day
-            </button>
-            <button class="filter-tab" type="button" role="tab" aria-selected="false" data-filter="non-zero-day">
-              Non-zero-day
-            </button>
-          </div>
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr>
-                <th>Finding</th>
-                <th>Notes</th>
-                <th>Severity</th>
-                <th>Tutorial</th>
-                <th>Group</th>
-                <th>Zero-day</th>
-                <th>Rubric Score</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-            <tbody id="leaderboard-body">
-              <tr>
-                <td colspan="8">Loading records...</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-    </main>
+  <noscript>
+    <p class="noscript-message">Enable JavaScript to view the leaderboard data.</p>
+  </noscript>
 
-    <noscript>
-      <p class="noscript-message">Enable JavaScript to view the leaderboard data.</p>
-    </noscript>
+  <script src="script.js"></script>
+</body>
 
-    <script src="script.js"></script>
-  </body>
 </html>
