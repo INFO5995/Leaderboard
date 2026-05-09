@@ -307,7 +307,10 @@
       "cohort": "INFO5995",
       "tutorialNumber": 33,
       "groupNumber": 8,
-      "mainStudents": "Hangyi Li",
+      "mainStudents": [
+        "Haoyang Li",
+        "Hangyi Li"
+      ],
       "notes": "External platform report is a confirmed duplicate and currently treated as a validated zero-day duplicate. Affected project and report IDs are temporarily withheld.",
       "findings": [
         {
@@ -327,7 +330,11 @@
           "noveltyScore": 1,
           "zeroDay": true,
           "points": 4.5,
-          "scoreReason": "External platform evidence links the student's report to a duplicate/original report with Low severity. The student's High/Critical self-assessment is not used. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+          "scoreReason": "External platform evidence links the student's report to a duplicate/original report with Low severity. The student's High/Critical self-assessment is not used. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring.",
+          "mainStudents": [
+            "Haoyang Li",
+            "Hangyi Li"
+          ]
         }
       ]
     },
