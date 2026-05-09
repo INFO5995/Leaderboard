@@ -382,7 +382,9 @@ function renderRankingList(element, rows, mode) {
 
     const students = document.createElement("p");
     students.className = "ranking-students";
-    students.textContent = leadStudentLabel(resolveTeamStudents(row.student));
+    const rankingStudents =
+      mode === "severity" ? firstNonEmpty(row.topFinding?.mainStudents, resolveTeamStudents(row.student)) : resolveTeamStudents(row.student);
+    students.textContent = leadStudentLabel(rankingStudents);
 
     body.append(title, students, detail);
     item.append(rank, body);
