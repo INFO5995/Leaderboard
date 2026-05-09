@@ -118,16 +118,28 @@ function resolveScoreBreakdown(finding) {
   return { severity, impact, novelty };
 }
 
-function resolvePoints(finding, scoring, breakdown) {
-  const explicit = Number(finding.points);
+function scoreBreakdownTotal(breakdown) {
+  const total =
+    Number(breakdown?.severity ?? NaN) +
+    Number(breakdown?.impact ?? NaN) +
+    Number(breakdown?.novelty ?? NaN);
+  return Number.isFinite(total) ? total : null;
+}
+
+function resolveCreditShare(finding) {
+  const explicit = Number(
+    finding.creditShare ?? finding.credit_share ?? finding.findingShare ?? finding.finding_share ?? finding.share
+  );
+  return Number.isFinite(explicit) && explicit > 0 ? explicit : 1;
+}
+
+function resolveBasePoints(finding, scoring, breakdown) {
+  const explicit = Number(finding.basePoints ?? finding.base_points ?? finding.baseScore ?? finding.base_score);
   if (Number.isFinite(explicit)) {
     return explicit;
   }
 
-  const breakdownTotal =
-    Number(breakdown?.severity ?? NaN) +
-    Number(breakdown?.impact ?? NaN) +
-    Number(breakdown?.novelty ?? NaN);
+  const breakdownTotal = scoreBreakdownTotal(breakdown);
   if (Number.isFinite(breakdownTotal)) {
     return breakdownTotal;
   }
@@ -135,6 +147,15 @@ function resolvePoints(finding, scoring, breakdown) {
   const key = normalizeType(finding.type);
   const fallback = Number(scoring?.[key]);
   return Number.isFinite(fallback) ? fallback : 1;
+}
+
+function resolvePoints(finding, scoring, breakdown) {
+  const explicit = Number(finding.points);
+  if (Number.isFinite(explicit)) {
+    return explicit;
+  }
+
+  return resolveBasePoints(finding, scoring, breakdown) * resolveCreditShare(finding);
 }
 
 function findingTimestamp(finding) {
@@ -149,15 +170,19 @@ function buildStudents(data) {
       const findings = Array.isArray(student.findings) ? student.findings : [];
       const scoredFindings = findings.map((finding) => {
         const breakdown = resolveScoreBreakdown(finding);
+        const creditShare = resolveCreditShare(finding);
 
         return {
           ...finding,
           scoreBreakdown: breakdown,
+          basePoints: resolveBasePoints(finding, data.scoring, breakdown),
+          creditShare,
           points: resolvePoints(finding, data.scoring, breakdown)
         };
       });
 
       const totalPoints = scoredFindings.reduce((sum, finding) => sum + finding.points, 0);
+      const findingCount = scoredFindings.reduce((sum, finding) => sum + finding.creditShare, 0);
       const latestFinding =
         scoredFindings
           .slice()
@@ -166,7 +191,7 @@ function buildStudents(data) {
       return {
         ...student,
         findings: scoredFindings,
-        findingCount: scoredFindings.length,
+        findingCount,
         totalPoints,
         latestFinding
       };
@@ -350,7 +375,7 @@ function renderRankingList(element, rows, mode) {
     if (mode === "severity") {
       detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10`;
     } else {
-      detail.textContent = `${row.findingCount} validated finding${row.findingCount === 1 ? "" : "s"}`;
+      detail.textContent = `${formatScore(row.findingCount)} validated finding${row.findingCount === 1 ? "" : "s"}`;
     }
 
     const students = document.createElement("p");
@@ -428,7 +453,8 @@ function buildLeadStudentsCell(finding) {
   return wrap;
 }
 
-function formatBreakdown(breakdown) {
+function formatBreakdown(finding) {
+  const breakdown = finding.scoreBreakdown;
   if (
     !Number.isFinite(breakdown?.severity) ||
     !Number.isFinite(breakdown?.impact) ||
@@ -437,12 +463,20 @@ function formatBreakdown(breakdown) {
     return "Breakdown not provided";
   }
 
+  const total = scoreBreakdownTotal(breakdown);
+  const creditShare = Number(finding.creditShare);
+  const shareNote =
+    Number.isFinite(creditShare) && creditShare !== 1
+      ? ` = base ${formatScore(total)}; credit share ${formatScore(creditShare)}`
+      : "";
+
   return `Severity ${formatScore(breakdown.severity)} + Impact ${formatScore(
     breakdown.impact
-  )} + Novelty ${formatScore(breakdown.novelty)}`;
+  )} + Novelty ${formatScore(breakdown.novelty)}${shareNote}`;
 }
 
-function formatCompactBreakdown(breakdown) {
+function formatCompactBreakdown(finding) {
+  const breakdown = finding.scoreBreakdown;
   if (
     !Number.isFinite(breakdown?.severity) ||
     !Number.isFinite(breakdown?.impact) ||
@@ -451,9 +485,11 @@ function formatCompactBreakdown(breakdown) {
     return "No breakdown";
   }
 
-  return `S ${formatScore(breakdown.severity)} / I ${formatScore(breakdown.impact)} / N ${formatScore(
+  const base = `S ${formatScore(breakdown.severity)} / I ${formatScore(breakdown.impact)} / N ${formatScore(
     breakdown.novelty
   )}`;
+  const creditShare = Number(finding.creditShare);
+  return Number.isFinite(creditShare) && creditShare !== 1 ? `${base} x ${formatScore(creditShare)}` : base;
 }
 
 function buildScoreCell(finding) {
@@ -466,8 +502,8 @@ function buildScoreCell(finding) {
 
   const sub = document.createElement("p");
   sub.className = "score-sub";
-  sub.textContent = formatCompactBreakdown(finding.scoreBreakdown);
-  sub.title = formatBreakdown(finding.scoreBreakdown);
+  sub.textContent = formatCompactBreakdown(finding);
+  sub.title = formatBreakdown(finding);
 
   wrap.append(main, sub);
   return wrap;

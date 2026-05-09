@@ -74,7 +74,7 @@
       "tutorialNumber": 14,
       "groupNumber": 1,
       "mainStudents": "Maurice Ng",
-      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, and one confirmed non-first zero-day report.",
+      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, and one confirmed non-first zero-day report shared with T29G01.",
       "findings": [
         {
           "type": "Disclosure",
@@ -163,13 +163,19 @@
           "reportPlatform": "Coordinated disclosure channel",
           "reportStatus": "Confirmed by affected organization; not first to report",
           "originalityStatus": "Zero-day duplicate",
-          "evidenceNote": "Affected organization and technical details withheld. Coordinator confirmed this is a zero-day, but not first to report.",
+          "evidenceNote": "Affected organization and technical details withheld. Shared finding with T29G01; credited at 0.5 share. Coordinator confirmed this is a zero-day, but not first to report.",
           "severityScore": 3,
           "impactEvidenceScore": 2,
           "noveltyScore": 1,
           "zeroDay": true,
-          "points": 6,
-          "scoreReason": "Affected-organization confirmation supports Medium severity for mobile credential storage with clear sensitive-data impact and local-device prerequisites. It is treated as a zero-day duplicate/non-first report because no public disclosure was found, but the student was not first to report."
+          "points": 3,
+          "scoreReason": "Affected-organization confirmation supports Medium severity for mobile credential storage with clear sensitive-data impact and local-device prerequisites. Base score is S3 + I2 + N1 = 6, credited at 0.5 share because this was jointly found with T29G01.",
+          "mainStudents": [
+            "Maurice Ng",
+            "Yuchen Wu"
+          ],
+          "basePoints": 6,
+          "creditShare": 0.5
         }
       ]
     },
@@ -322,6 +328,41 @@
           "zeroDay": true,
           "points": 4.5,
           "scoreReason": "External platform evidence links the student's report to a duplicate/original report with Low severity. The student's High/Critical self-assessment is not used. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 29 Group 1",
+      "cohort": "INFO5995",
+      "tutorialNumber": 29,
+      "groupNumber": 1,
+      "mainStudents": "Yuchen Wu",
+      "notes": "One confirmed non-first zero-day report is shared with T14G01 and credited at 0.5 share. Affected organization and technical details are withheld.",
+      "findings": [
+        {
+          "type": "Disclosure",
+          "title": "Mobile VoIP credential storage issue confirmed non-first report",
+          "program": "Affected organization withheld",
+          "internalSeverity": "Medium",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Affected-organization confirmation indicates Medium severity for sensitive credential storage in a mobile application with local-device prerequisites.",
+          "date": "2026-05-05",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Confirmed by affected organization; not first to report",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "Affected organization and technical details withheld. Shared finding with T14G01; credited at 0.5 share. Coordinator confirmed this is a zero-day, but not first to report.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 3,
+          "scoreReason": "Affected-organization confirmation supports Medium severity for mobile credential storage with clear sensitive-data impact and local-device prerequisites. Base score is S3 + I2 + N1 = 6, credited at 0.5 share because this was jointly found with T14G01.",
+          "mainStudents": [
+            "Maurice Ng",
+            "Yuchen Wu"
+          ],
+          "basePoints": 6,
+          "creditShare": 0.5
         }
       ]
     }
