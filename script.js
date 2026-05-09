@@ -373,7 +373,9 @@ function renderRankingList(element, rows, mode) {
     const detail = document.createElement("p");
     detail.className = "ranking-detail";
     if (mode === "severity") {
-      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10`;
+      const creditShare = Number(row.topFinding.creditShare);
+      const shareNote = Number.isFinite(creditShare) && creditShare !== 1 ? ` (shared x${formatScore(creditShare)})` : "";
+      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10${shareNote}`;
     } else {
       detail.textContent = `${formatScore(row.findingCount)} validated finding${row.findingCount === 1 ? "" : "s"}`;
     }
