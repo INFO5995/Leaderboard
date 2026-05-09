@@ -73,8 +73,11 @@
       "cohort": "INFO5995",
       "tutorialNumber": 14,
       "groupNumber": 1,
-      "mainStudents": "Maurice Ng",
-      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, and one confirmed non-first zero-day report shared with T29G01.",
+      "mainStudents": [
+        "Maurice Ng",
+        "Santiago Gonzalez Alvarez"
+      ],
+      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, one confirmed non-first zero-day report shared with T29G01, and two additional Santiago Gonzalez Alvarez findings.",
       "findings": [
         {
           "type": "Disclosure",
@@ -176,6 +179,78 @@
           ],
           "basePoints": 6,
           "creditShare": 0.5
+        },
+        {
+          "type": "Disclosure",
+          "title": "Member-profile API access-control issue confirmed by affected organization",
+          "program": "Affected organization withheld pending remediation",
+          "internalSeverity": "High",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Affected-organization acknowledgement describes an urgent access-control issue involving member-profile API data and remediation coordination.",
+          "mainStudents": "Santiago Gonzalez Alvarez",
+          "date": "2026-05-05",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Acknowledged by affected organization; remediation under coordination",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization, app, endpoint, and technical details withheld pending remediation.",
+          "severityScore": 4.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 8.5,
+          "scoreReason": "Affected-organization acknowledgement supports a real access-control issue affecting member-profile data, with remediation and privacy assessment under coordination. Course-side scoring keeps this at High rather than Critical because the public evidence is intentionally redacted and no platform/vendor Critical severity was assigned."
+        },
+        {
+          "type": "Bug Bounty",
+          "title": "Private mobile application cryptographic-key issue confirmed duplicate",
+          "program": "Private bug bounty target withheld",
+          "internalSeverity": "Critical",
+          "externalSeverity": "Critical",
+          "severityRationale": "External bug bounty platform screenshot shows closed duplicate status with CVSS 9.1 Critical.",
+          "mainStudents": "Santiago Gonzalez Alvarez",
+          "date": "2026-05-06",
+          "reportPlatform": "External bug bounty platform",
+          "reportStatus": "Duplicate (closed)",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "External platform duplicate confirmation and CVSS 9.1 shown; target and technical details withheld.",
+          "severityScore": 6,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 9,
+          "scoreReason": "External platform evidence shows a closed duplicate with CVSS 9.1 Critical. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 8 Group 1",
+      "cohort": "INFO5995",
+      "tutorialNumber": 8,
+      "groupNumber": 1,
+      "mainStudents": [
+        "Aadya Singh"
+      ],
+      "notes": "HackerOne evidence shows a closed duplicate whose original report is triaged with Medium severity. Affected program, report IDs, and technical details are withheld.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "Webhook verification fail-open issue confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Medium",
+          "externalSeverity": "Medium",
+          "severityRationale": "HackerOne duplicate/original metadata shows the original report is Triaged with Medium severity (6.3). The student's current Medium (6.9) card is not used.",
+          "mainStudents": "Aadya Singh",
+          "date": "2026-05-08",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Duplicate (closed); original triaged",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "HackerOne screenshot shows current report closed as duplicate and original report triaged; affected program, report IDs, and technical details are withheld.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 6,
+          "scoreReason": "HackerOne defines Triaged as a validated report escalated for internal remediation, so the visible duplicate/original Triaged status is countable. The original report's Medium 6.3 severity is used instead of the student's current Medium 6.9 card. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
         }
       ]
     },
