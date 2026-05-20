@@ -1266,7 +1266,10 @@
       "tutorialNumber": 18,
       "groupNumber": 1,
       "mainStudents": [
-        "Eason Yu"
+        "Eason Yu",
+        "Sam Chen",
+        "Siwat Sirichai",
+        "Raymond Shi"
       ],
       "notes": "Coordinated vendor-disclosure evidence supports eight countable WordPress plugin findings. Affected plugin names, vendor contacts, exact endpoints, and exploit details are withheld; three additional checked items remain private exclusions.",
       "findings": [
@@ -1277,7 +1280,12 @@
           "internalSeverity": "High",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and patched unauthenticated disclosure of non-public post content; course-side High follows the demonstrated sensitive-content exposure.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-09",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and patched by vendor",
@@ -1297,7 +1305,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and fixed the bypass but disputed the student's High severity because the practical outcome is limited and configuration-dependent.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-11",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor; severity disputed",
@@ -1317,7 +1330,12 @@
           "internalSeverity": "High",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and moved to close the plugin after unauthenticated registered-user and visitor PII disclosure was reported.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-09",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed by vendor; plugin closure requested",
@@ -1337,7 +1355,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor stated the issue was fixed and the plugin updated; impact is unauthorized upload of non-executable content under site-controlled paths.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-06",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Fixed by vendor",
@@ -1357,7 +1380,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and said it would be fixed in the next plugin release.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Acknowledged by vendor for next release",
@@ -1377,7 +1405,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor reviewed the report and fixed the registration bypass in a plugin release.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor",
@@ -1397,7 +1430,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed the unauthenticated upload issue and said nonce, authorization, and validation fixes were released.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor",
@@ -1417,7 +1455,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report, and the public plugin changelog later records a fix for unauthenticated arbitrary file upload.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+                            "Eason Yu",
+                            "Sam Chen",
+                            "Siwat Sirichai",
+                            "Raymond Shi"
+                          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Acknowledged by vendor; fixed in public changelog",
