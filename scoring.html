@@ -32,6 +32,11 @@
           <div class="header-meta">
             <span>Last updated <strong id="last-updated">-</strong></span>
           </div>
+          <div class="review-notice" role="note" aria-label="Review notice">
+            This leaderboard reflects the unit coordinator's best-effort judgment from available private and public
+            evidence. Some scoring calls are necessarily subjective and may change when vendor or platform evidence
+            changes.
+          </div>
         </div>
       </header>
 
@@ -85,7 +90,7 @@
             </li>
             <li>
               <span class="score-chip">Novelty</span>
-              Zero-day means the issue was not publicly disclosed at submission time. A confirmed duplicate of a non-public vendor or platform report is still displayed as zero-day, but receives novelty score 1 rather than the full novelty score. Duplicate entries require a countable duplicate/original status such as Triaged, Retesting, Resolved, or Closed.
+              Zero-day means the issue was not publicly disclosed at submission time. A confirmed duplicate of a non-public vendor or platform report is still displayed as zero-day, but receives novelty score 1 rather than the full novelty score. Duplicate entries require a countable duplicate/original status. Official platform or vendor triage counts provisionally at 0.5 credit, and displays an asterisk, only when it is more than submission intake or generic pending review.
             </li>
             <li>
               <span class="score-chip">Display</span>
@@ -99,13 +104,13 @@
         <div class="panel-title-stack">
           <h2>Display Notes</h2>
           <p class="panel-caption">
-            The public leaderboard only includes validated zero-day vulnerabilities. Already-public vulnerabilities are excluded from the table and kept only in private review notes with disclosure links. Zero-day status and originality are displayed as separate fields: zero-day answers whether the vulnerability was already publicly disclosed at submission time, while originality distinguishes first disclosures and zero-day duplicates. Confirmed duplicates of non-public reports are therefore zero-day, but not first disclosures. Duplicate/original tickets marked New, Pending program review, needs more info, Informative, Informational, or with hidden status are withheld until countable confirmation is visible.
+            The public leaderboard only includes validated zero-day vulnerabilities and provisional officially triaged zero-day candidates. Already-public vulnerabilities are excluded from the table and kept only in private review notes with disclosure links. Zero-day status and originality are displayed as separate fields: zero-day answers whether the vulnerability was already publicly disclosed at submission time, while originality distinguishes first disclosures and zero-day duplicates. Confirmed duplicates of non-public reports are therefore zero-day, but not first disclosures. Submission intake, generic pending review, risk verification pending, New, Pending program review, needs more info, under review, Informative, Informational, or hidden status are withheld until countable confirmation is visible.
           </p>
           <p class="panel-caption">
             The records table shows a separate score-source column. Platform duplicate/original score means visible platform severity, especially the duplicate/original ticket's severity, is being used for the severity component. Course-side score means the course team assigned a conservative rubric score from private evidence. Course-side scores should be at least as strict as platform scoring and may be adjusted as more reports are reviewed.
           </p>
           <p class="panel-caption">
-            Jointly discovered findings are credit-weighted. For example, a finding shared by two groups may keep its base rubric calculation privately, but each group receives a 0.5 share of the credited score and finding count.
+            Jointly discovered findings and provisional triaged findings are credit-weighted separately. For example, a finding shared by two groups may keep its base rubric calculation privately, but each group receives a 0.5 share of the credited score and finding count. An officially triaged but not finally confirmed finding receives 0.5 provisional credit and is marked with an asterisk until later confirmation.
           </p>
         </div>
       </section>

@@ -33,6 +33,7 @@ body {
   background: var(--bg);
   font-family: "Inter", "Segoe UI", sans-serif;
   line-height: 1.5;
+  overflow-x: hidden;
 }
 
 a {
@@ -40,7 +41,8 @@ a {
 }
 
 .page-shell {
-  width: min(1180px, calc(100% - 2rem));
+  width: calc(100% - 2rem);
+  max-width: 1180px;
   margin: 0 auto;
   padding: 1.25rem 0 3rem;
 }
@@ -108,6 +110,7 @@ h2 {
 h1 {
   font-size: clamp(2rem, 5vw, 3.8rem);
   line-height: 1;
+  overflow-wrap: anywhere;
 }
 
 h2 {
@@ -120,6 +123,7 @@ h2 {
   max-width: 68ch;
   color: var(--muted);
   font-size: 1.02rem;
+  overflow-wrap: anywhere;
 }
 
 .header-meta {
@@ -134,6 +138,18 @@ h2 {
 .header-meta strong {
   color: var(--text);
   font-weight: 600;
+}
+
+.review-notice {
+  margin-top: 1rem;
+  border: 1px solid #ecd479;
+  border-radius: 8px;
+  background: #fff8df;
+  color: #6f4e00;
+  font-size: 0.92rem;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  padding: 0.72rem 0.85rem;
 }
 
 .panel {
@@ -156,12 +172,14 @@ h2 {
 .panel-title-stack {
   display: grid;
   gap: 0.35rem;
+  min-width: 0;
 }
 
 .panel-caption {
   margin: 0;
   color: var(--muted);
   font-size: 0.92rem;
+  overflow-wrap: anywhere;
 }
 
 .table-controls {
@@ -297,6 +315,20 @@ tbody tr:last-child td {
   font-size: 0.78rem;
 }
 
+.score-provisional {
+  width: fit-content;
+  border: 1px solid #ecd479;
+  border-radius: 999px;
+  background: #fff7d7;
+  color: var(--medium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  margin: 0;
+  padding: 0.12rem 0.42rem;
+  text-transform: uppercase;
+}
+
 .notes-stack {
   min-width: 148px;
   max-width: 220px;
@@ -333,6 +365,14 @@ tbody tr:last-child td {
   color: var(--muted);
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.notes-provisional {
+  color: var(--medium);
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 500;
   line-height: 1.35;
 }
 
@@ -501,6 +541,7 @@ tbody tr:last-child td {
 }
 
 .ranking-card {
+  min-width: 0;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-soft);
@@ -553,6 +594,7 @@ tbody tr:last-child td {
 .ranking-title,
 .ranking-detail {
   margin: 0;
+  overflow-wrap: anywhere;
 }
 
 .ranking-title {
@@ -569,6 +611,7 @@ tbody tr:last-child td {
 .ranking-students {
   font-family: "IBM Plex Mono", monospace;
   font-size: 0.78rem;
+  overflow-wrap: anywhere;
 }
 
 .scoring-panel .panel-head {
@@ -668,7 +711,7 @@ tbody tr:last-child td {
 
 @media (max-width: 820px) {
   .page-shell {
-    width: min(1180px, calc(100% - 1rem));
+    width: calc(100% - 1rem);
     padding-top: 0.9rem;
   }
 
@@ -694,6 +737,76 @@ tbody tr:last-child td {
 
   .ranking-grid {
     grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 520px) {
+  .page-shell {
+    width: 100%;
+    padding: 0.9rem 0.5rem 2rem;
+  }
+
+  .top-nav {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .nav-link {
+    flex: 0 1 auto;
+    max-width: 9.5rem;
+    overflow-wrap: anywhere;
+    text-align: center;
+  }
+
+  h1 {
+    max-width: calc(100vw - 1rem);
+    font-size: 1.85rem;
+    line-height: 1.08;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .hero-copy,
+  .header-meta,
+  .review-notice,
+  .panel-caption {
+    max-width: calc(100vw - 2rem);
+    font-size: 0.9rem;
+  }
+
+  .header-copy,
+  .panel-title-stack {
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .panel,
+  .panel-head,
+  .ranking-grid,
+  .ranking-card,
+  .ranking-list,
+  .ranking-item {
+    min-width: 0;
+  }
+
+  .panel-head,
+  .ranking-grid {
+    padding: 0.85rem;
+  }
+
+  .ranking-item {
+    grid-template-columns: minmax(1.9rem, auto) minmax(0, 1fr);
+    gap: 0.55rem;
+  }
+
+  .ranking-title,
+  .ranking-students,
+  .ranking-detail,
+  .students-main,
+  .notes-muted,
+  .notes-provisional,
+  .score-sub {
+    overflow-wrap: anywhere;
   }
 }
 
@@ -725,7 +838,7 @@ tbody tr:last-child td {
   tbody td {
     border-bottom: none;
     display: grid;
-    grid-template-columns: minmax(104px, 38%) 1fr;
+    grid-template-columns: minmax(88px, 34%) minmax(0, 1fr);
     gap: 0.7rem;
     padding: 0.38rem 0;
   }
@@ -754,5 +867,20 @@ tbody tr:last-child td {
   .tone-low td:first-child,
   .tone-unknown td:first-child {
     box-shadow: none;
+  }
+}
+
+@media (max-width: 420px) {
+  tbody td {
+    grid-template-columns: 1fr;
+    gap: 0.22rem;
+  }
+
+  .notes-stack,
+  .students-stack,
+  .students-main,
+  .score-source-stack {
+    max-width: none;
+    min-width: 0;
   }
 }

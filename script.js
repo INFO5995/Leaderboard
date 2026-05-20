@@ -78,7 +78,7 @@ function formatScore(value) {
     return "-";
   }
 
-  return Number.isInteger(numeric) ? String(numeric) : numeric.toFixed(1);
+  return Number.isInteger(numeric) ? String(numeric) : numeric.toFixed(2).replace(/\.?0+$/, "");
 }
 
 function resolveScorePart(finding, ...keys) {
@@ -133,6 +133,23 @@ function resolveCreditShare(finding) {
   return Number.isFinite(explicit) && explicit > 0 ? explicit : 1;
 }
 
+function resolveProvisionalCredit(finding) {
+  const explicit = Number(
+    finding.provisionalCredit ??
+      finding.provisional_credit ??
+      finding.validationCredit ??
+      finding.validation_credit
+  );
+  return Number.isFinite(explicit) && explicit > 0 ? Math.min(explicit, 1) : 1;
+}
+
+function isProvisionalFinding(finding) {
+  return (
+    Number(finding.provisionalCredit) < 1 ||
+    Boolean(firstNonEmpty(finding.provisionalStatus, finding.provisional_status))
+  );
+}
+
 function resolveBasePoints(finding, scoring, breakdown) {
   const explicit = Number(finding.basePoints ?? finding.base_points ?? finding.baseScore ?? finding.base_score);
   if (Number.isFinite(explicit)) {
@@ -155,7 +172,7 @@ function resolvePoints(finding, scoring, breakdown) {
     return explicit;
   }
 
-  return resolveBasePoints(finding, scoring, breakdown) * resolveCreditShare(finding);
+  return resolveBasePoints(finding, scoring, breakdown) * resolveCreditShare(finding) * resolveProvisionalCredit(finding);
 }
 
 function findingTimestamp(finding) {
@@ -171,18 +188,22 @@ function buildStudents(data) {
       const scoredFindings = findings.map((finding) => {
         const breakdown = resolveScoreBreakdown(finding);
         const creditShare = resolveCreditShare(finding);
+        const provisionalCredit = resolveProvisionalCredit(finding);
+        const findingCredit = creditShare * provisionalCredit;
 
         return {
           ...finding,
           scoreBreakdown: breakdown,
           basePoints: resolveBasePoints(finding, data.scoring, breakdown),
           creditShare,
+          provisionalCredit,
+          findingCredit,
           points: resolvePoints(finding, data.scoring, breakdown)
         };
       });
 
       const totalPoints = scoredFindings.reduce((sum, finding) => sum + finding.points, 0);
-      const findingCount = scoredFindings.reduce((sum, finding) => sum + finding.creditShare, 0);
+      const findingCount = scoredFindings.reduce((sum, finding) => sum + finding.findingCredit, 0);
       const latestFinding =
         scoredFindings
           .slice()
@@ -375,9 +396,14 @@ function renderRankingList(element, rows, mode) {
     if (mode === "severity") {
       const creditShare = Number(row.topFinding.creditShare);
       const shareNote = Number.isFinite(creditShare) && creditShare !== 1 ? ` (shared x${formatScore(creditShare)})` : "";
-      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}/10${shareNote}`;
+      const provisionalCredit = Number(row.topFinding.provisionalCredit);
+      const provisionalNote =
+        Number.isFinite(provisionalCredit) && provisionalCredit !== 1 ? ` (triage x${formatScore(provisionalCredit)})` : "";
+      detail.textContent = `Rubric ${formatScore(row.topFinding.points)}${
+        isProvisionalFinding(row.topFinding) ? "*" : ""
+      }/10${shareNote}${provisionalNote}`;
     } else {
-      detail.textContent = `${formatScore(row.findingCount)} validated finding${row.findingCount === 1 ? "" : "s"}`;
+      detail.textContent = `${formatScore(row.findingCount)} credited finding${row.findingCount === 1 ? "" : "s"}`;
     }
 
     const students = document.createElement("p");
@@ -469,14 +495,19 @@ function formatBreakdown(finding) {
 
   const total = scoreBreakdownTotal(breakdown);
   const creditShare = Number(finding.creditShare);
-  const shareNote =
-    Number.isFinite(creditShare) && creditShare !== 1
-      ? ` = base ${formatScore(total)}; credit share ${formatScore(creditShare)}`
-      : "";
+  const provisionalCredit = Number(finding.provisionalCredit);
+  const adjustments = [];
+  if (Number.isFinite(creditShare) && creditShare !== 1) {
+    adjustments.push(`credit share ${formatScore(creditShare)}`);
+  }
+  if (Number.isFinite(provisionalCredit) && provisionalCredit !== 1) {
+    adjustments.push(`provisional triage credit ${formatScore(provisionalCredit)}`);
+  }
+  const adjustmentNote = adjustments.length ? ` = base ${formatScore(total)}; ${adjustments.join("; ")}` : "";
 
   return `Severity ${formatScore(breakdown.severity)} + Impact ${formatScore(
     breakdown.impact
-  )} + Novelty ${formatScore(breakdown.novelty)}${shareNote}`;
+  )} + Novelty ${formatScore(breakdown.novelty)}${adjustmentNote}`;
 }
 
 function formatCompactBreakdown(finding) {
@@ -493,7 +524,15 @@ function formatCompactBreakdown(finding) {
     breakdown.novelty
   )}`;
   const creditShare = Number(finding.creditShare);
-  return Number.isFinite(creditShare) && creditShare !== 1 ? `${base} x ${formatScore(creditShare)}` : base;
+  const provisionalCredit = Number(finding.provisionalCredit);
+  const adjustments = [];
+  if (Number.isFinite(creditShare) && creditShare !== 1) {
+    adjustments.push(`shared x${formatScore(creditShare)}`);
+  }
+  if (Number.isFinite(provisionalCredit) && provisionalCredit !== 1) {
+    adjustments.push(`triage x${formatScore(provisionalCredit)}`);
+  }
+  return adjustments.length ? `${base} (${adjustments.join(", ")})` : base;
 }
 
 function buildScoreCell(finding) {
@@ -502,7 +541,7 @@ function buildScoreCell(finding) {
 
   const main = document.createElement("p");
   main.className = "score-main";
-  main.textContent = `${formatScore(finding.points)}/10`;
+  main.textContent = `${formatScore(finding.points)}${isProvisionalFinding(finding) ? "*" : ""}/10`;
 
   const sub = document.createElement("p");
   sub.className = "score-sub";
@@ -510,6 +549,14 @@ function buildScoreCell(finding) {
   sub.title = formatBreakdown(finding);
 
   wrap.append(main, sub);
+
+  if (isProvisionalFinding(finding)) {
+    const provisional = document.createElement("p");
+    provisional.className = "score-provisional";
+    provisional.textContent = "Provisional triage";
+    wrap.append(provisional);
+  }
+
   return wrap;
 }
 
@@ -671,6 +718,19 @@ function buildNotesCell(finding) {
     wrap.append(statusLine);
   }
 
+  if (isProvisionalFinding(finding)) {
+    const provisionalCredit = Number(finding.provisionalCredit);
+    const statusText = firstNonEmpty(finding.provisionalStatus, finding.provisional_status, "official triage");
+    const creditText =
+      Number.isFinite(provisionalCredit) && provisionalCredit !== 1
+        ? `${formatScore(provisionalCredit * 100)}% credit`
+        : "provisional credit";
+    const provisional = document.createElement("span");
+    provisional.className = "notes-provisional";
+    provisional.textContent = `Provisional ${statusText}: ${creditText} pending final confirmation.`;
+    wrap.append(provisional);
+  }
+
   const evidenceNote = firstNonEmpty(finding.evidenceNote, finding.evidence_note, finding.reportNote, finding.report_note);
   if (evidenceNote) {
     const note = document.createElement("span");
@@ -738,6 +798,11 @@ function resolveTeamStudents(student) {
 }
 
 function leadStudentLabel(value) {
+  const names = normalizeNameList(value);
+  if (names.length > 0) {
+    return names.join(", ");
+  }
+
   const text = firstNonEmpty(value);
   return text || "Not listed";
 }

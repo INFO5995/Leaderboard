@@ -32,6 +32,11 @@
           <span>Last updated <strong id="last-updated">-</strong></span>
           <span>Scores follow the Assignment 2 Part B finding rubric.</span>
         </div>
+        <div class="review-notice" role="note" aria-label="Review notice">
+          This leaderboard reflects the unit coordinator's best-effort judgment from available private and public
+          evidence. Some scoring calls are necessarily subjective and may change when vendor or platform evidence
+          changes.
+        </div>
       </div>
     </header>
 
@@ -41,9 +46,9 @@
           <h2>Bonus Rankings</h2>
           <p class="panel-caption">
             Top ten teams are shown for each ranking. The top three teams by highest credited rubric score and the top
-            three teams by credit-weighted validated finding count receive +10 bonus marks, capped at a total of 100.
-            If two groups jointly discovered one finding, each group receives a 0.5 share: score x 0.5 and finding count
-            x 0.5.
+            three teams by credit-weighted finding count receive +10 bonus marks, capped at a total of 100. Provisional
+            triaged entries count at 0.5 until final confirmation. If two groups jointly discovered one finding, each
+            group receives a 0.5 share: score x 0.5 and finding count x 0.5.
           </p>
         </div>
       </div>
@@ -69,14 +74,18 @@
           <h2>Vulnerability Records</h2>
           <p class="panel-caption">This leaderboard only lists validated zero-day vulnerabilities. Confirmed duplicates
             of non-public reports are included as zero-day. Originality is shown separately so first disclosures and
-            zero-day duplicates are not conflated. Project names and report identifiers are temporarily withheld.</p>
+            zero-day duplicates are not conflated. Officially triaged entries that are not finally confirmed are marked
+            with <span aria-label="asterisk">*</span> and receive 0.5 provisional credit. Project names and report
+            identifiers are temporarily withheld.</p>
           <div class="source-legend" aria-label="Score source legend">
             <span class="source-pill source-vendor">Platform</span>
             <span class="source-pill source-course">Course</span>
           </div>
-          <p class="panel-caption">Duplicate entries require a countable duplicate/original status such as Triaged,
-            Retesting, Resolved, or Closed. New, pending review, needs-more-info, or status-hidden duplicates are
-            withheld until confirmed.</p>
+          <p class="panel-caption">Duplicate entries require a countable duplicate/original status. Official platform or
+            vendor triage counts provisionally at 0.5 credit only when it is more than submission intake or generic
+            pending review. Retesting, Resolved, Closed, fixed, or otherwise finally confirmed entries count at full
+            credit. New, pending review, needs-more-info, under-review, Informative, Informational, or status-hidden
+            duplicates are withheld until confirmed.</p>
         </div>
         <div class="table-controls" role="tablist" aria-label="Originality table filter">
           <button class="filter-tab is-active" type="button" role="tab" aria-selected="true" data-filter="all">

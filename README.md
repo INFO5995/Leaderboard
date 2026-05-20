@@ -80,6 +80,8 @@ Each finding can include:
 - `noveltyScore` (0--2 rubric novelty component)
 - `basePoints` (optional unshared rubric score before credit weighting)
 - `creditShare` (optional finding credit share, for example `0.5` for a jointly discovered finding split between two groups)
+- `provisionalCredit` (optional validation credit, for example `0.5` for an officially triaged finding awaiting final confirmation)
+- `provisionalStatus` (optional label for the provisional basis, for example `official triage (duplicate/original)`)
 - `scoreReason` (optional short explanation for the displayed breakdown)
 - `reportPlatform` (optional platform name, for example `HackerOne`)
 - `studentReportId` (optional external report ID for the student's submission)
@@ -99,8 +101,9 @@ If `mainStudents`, `tutorialNumber`, or `groupNumber` is omitted, the page falls
 If `zeroDay` is omitted, the page infers zero-day status from duplicate evidence and `noveltyScore` where possible: confirmed duplicates and `2` are shown as zero-day. Non-zero-day and unknown entries are not displayed on the public leaderboard. `originalityStatus` is shown separately so zero-day duplicates are not mistaken for first disclosures.
 For this leaderboard, `points` should normally be set explicitly and should reflect the rubric-aligned finding score rather than any assignment bonus mark.
 For jointly discovered findings, set `creditShare` and use `points` for the credited score. For example, a base `S3 + I2 + N1 = 6` finding shared evenly by two groups should use `basePoints: 6`, `creditShare: 0.5`, and `points: 3` for each group.
+For officially triaged findings that are not finally confirmed, set `basePoints`, `provisionalCredit: 0.5`, `provisionalStatus`, and explicit `points` equal to the provisional credited score. The site displays these with an asterisk and counts them as half a finding until final confirmation. Do not use provisional credit for generic pending review, submission intake, or status-hidden reports.
 If `points` is omitted, fallback points are pulled from the top-level `scoring` map, which is intentionally conservative.
-If `points` is omitted but the rubric breakdown fields are present, the page will sum `severityScore + impactEvidenceScore + noveltyScore` and multiply by `creditShare` when provided.
+If `points` is omitted but the rubric breakdown fields are present, the page will sum `severityScore + impactEvidenceScore + noveltyScore` and multiply by `creditShare` and `provisionalCredit` when provided.
 
 ## Optional Local Preview
 
