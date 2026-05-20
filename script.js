@@ -17,8 +17,6 @@ const state = {
   findings: []
 };
 
-const RANKING_LIMIT = 10;
-
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
@@ -341,8 +339,7 @@ function bonusRankRows(students) {
       }
 
       return findingTimestamp(b.topFinding) - findingTimestamp(a.topFinding);
-    })
-    .slice(0, RANKING_LIMIT);
+    });
 
   const count = rankedTeams
     .filter((row) => row.findingCount > 0)
@@ -357,8 +354,7 @@ function bonusRankRows(students) {
       }
 
       return b.topFinding.points - a.topFinding.points;
-    })
-    .slice(0, RANKING_LIMIT);
+    });
 
   return { severity, count };
 }
