@@ -1,7 +1,7 @@
 {
   "title": "INFO5995 Security Discovery Leaderboard",
   "season": "2026 Semester 1",
-  "lastUpdated": "2026-05-20",
+  "lastUpdated": "2026-05-21",
   "scoringModel": {
     "formula": "Final credited finding score = Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10. Officially triaged but not finally confirmed entries use 0.5 provisional credit and display an asterisk.",
     "severityTiers": [
@@ -77,7 +77,7 @@
         "Maurice Ng",
         "Santiago Gonzalez Alvarez"
       ],
-      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, one confirmed non-first zero-day report shared with T29G01, and two additional Santiago Gonzalez Alvarez findings.",
+      "notes": "Affected organizations and technical details are withheld because the issues are either unresolved or from private platform disclosures. Evidence includes coordinated disclosure reporting, private platform duplicate confirmations, one confirmed non-first zero-day report shared with T29G01, and three additional Santiago Gonzalez Alvarez findings.",
       "findings": [
         {
           "type": "Disclosure",
@@ -223,6 +223,26 @@
           "zeroDay": true,
           "points": 9,
           "scoreReason": "External platform evidence shows a closed duplicate with CVSS 9.1 Critical. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        },
+        {
+          "type": "Disclosure",
+          "title": "Mobile app exported receiver issue confirmed by vendor",
+          "program": "Affected mobile app vendor withheld",
+          "internalSeverity": "Low",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Vendor confirmed the Android exported-receiver vulnerability. Course-side Low reflects local-device attack prerequisites and integrity-only impact.",
+          "mainStudents": "Santiago Gonzalez Alvarez",
+          "date": "2026-05-14",
+          "reportPlatform": "Coordinated vendor disclosure",
+          "reportStatus": "Confirmed by vendor; response plan in development",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Vendor email confirms the vulnerability and states a response plan is being developed. App name, component, and exploit details are withheld.",
+          "severityScore": 1.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 5.5,
+          "scoreReason": "Vendor confirmation supports full credit. Course-side Low follows the student's own CVSS-style assessment and the local malicious-app prerequisites, while novelty receives first-disclosure credit because no matching public disclosure was found."
         }
       ]
     },
@@ -235,7 +255,7 @@
         "Aadya Singh",
         "Khush Malawaliya"
       ],
-      "notes": "HackerOne evidence shows two closed duplicates whose original reports are triaged with Medium severity. Affected programs, report IDs, and technical details are withheld. Triaged-original status is treated as provisional at 0.5 credit until final confirmation.",
+      "notes": "HackerOne evidence shows two closed duplicates whose original reports are triaged with Medium severity, plus one Low-severity report accepted with a bounty. Affected programs, report IDs, and technical details are withheld. Triaged-original duplicate status is treated as provisional at 0.5 credit until final confirmation.",
       "findings": [
         {
           "type": "Bug Bounty",
@@ -282,6 +302,27 @@
           "provisionalStatus": "official triage (duplicate/original)",
           "points": 3,
           "scoreReason": "The duplicate/original metadata shows Medium severity, but the original report status is Triaged rather than finally confirmed. Base score is S3 + I2 + N1 = 6, then triage provisional credit 0.5 gives 3 points. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        },
+        {
+          "type": "Bug Bounty",
+          "title": "WordPress live-chat settings stored XSS accepted with bounty",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Low",
+          "externalSeverity": "Low",
+          "severitySource": "Platform/vendor",
+          "severityRationale": "HackerOne evidence shows the report in Triaged status with Low severity and a paid bounty. Vendor comment describes the issue as very low severity because admin/local access is required.",
+          "mainStudents": "Aadya Singh",
+          "date": "2026-05-05",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Triaged; bounty awarded",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "HackerOne screenshot shows Triaged status, Low severity, a vendor comment accepting the issue, and a bounty award. Affected program, report ID, plugin name, and payload details are withheld.",
+          "severityScore": 1.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 5.5,
+          "scoreReason": "Although the platform status remains Triaged, the vendor comment and bounty award are treated as an accepted outcome rather than preliminary triage. Platform Low severity is used because the vendor explicitly reduced the issue for admin/local-access prerequisites."
         }
       ]
     },
@@ -456,6 +497,46 @@
       ]
     },
     {
+      "name": "Tutorial 2 Group 2",
+      "cohort": "INFO5995",
+      "tutorialNumber": 2,
+      "groupNumber": 2,
+      "mainStudents": [
+        "Ximing Li",
+        "Xueming Dong",
+        "Yifan Qin",
+        "Zetong Sha",
+        "Xun Gu"
+      ],
+      "notes": "HackerOne evidence shows one first-disclosure report in official Triaged status with Medium severity. The report is treated as provisional at 0.5 credit until final confirmation.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "AI coding action hook command execution issue officially triaged",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Medium",
+          "externalSeverity": "Medium",
+          "severitySource": "Platform/vendor",
+          "severityRationale": "HackerOne evidence shows official Triaged status and Medium severity at 5.3.",
+          "mainStudents": "Ximing Li",
+          "date": "2026-05-08",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Triaged (open)",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "HackerOne screenshot says the finding was validated and moved to Triaged with Medium severity. Affected program, report ID, workflow details, and exploit specifics are withheld.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "basePoints": 7,
+          "provisionalCredit": 0.5,
+          "provisionalStatus": "official triage",
+          "points": 3.5,
+          "scoreReason": "Official triage and visible Medium severity make the first-disclosure report countable, but final remediation or closure is not yet visible. Base score is S3 + I2 + N2 = 7, then triage provisional credit 0.5 gives 3.5 points."
+        }
+      ]
+    },
+    {
       "name": "Tutorial 14 Group 2",
       "cohort": "INFO5995",
       "tutorialNumber": 14,
@@ -507,6 +588,42 @@
           "provisionalStatus": "official triage (duplicate/original)",
           "points": 3,
           "scoreReason": "External platform evidence confirms the student's report as a duplicate and the duplicate/original status is Triaged. Duplicate/original severity is N/A, so course-side assessment keeps Medium severity for exposed client-side CMS credentials enabling unauthorized read access to unpublished draft records. Base score is S3 + I2 + N1 = 6, then triage provisional credit 0.5 gives 3 points. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 15 Group 2",
+      "cohort": "INFO5995",
+      "tutorialNumber": 15,
+      "groupNumber": 2,
+      "mainStudents": [
+        "Isuru Suriyaarachchi"
+      ],
+      "notes": "HackerOne evidence shows one closed duplicate of a private High-severity original whose visible duplicate/original status is Triaged. The report is treated as provisional at 0.5 credit until final confirmation is visible.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "Monitoring platform authorization-bypass issue confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "High",
+          "externalSeverity": "High",
+          "severitySource": "Platform duplicate/original score",
+          "severityRationale": "HackerOne duplicate/original metadata shows High severity at 7.1 while the original report is Triaged.",
+          "mainStudents": "Isuru Suriyaarachchi",
+          "date": "2026-05-04",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Duplicate (closed); original triaged",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "HackerOne screenshot shows the student's report closed as duplicate of a private High-severity original whose visible status is Triaged. Affected program, report IDs, endpoint, and technical details are withheld.",
+          "severityScore": 4.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "basePoints": 7.5,
+          "provisionalCredit": 0.5,
+          "provisionalStatus": "official triage (duplicate/original)",
+          "points": 3.75,
+          "scoreReason": "The visible duplicate/original metadata supports High severity, and the duplicate is treated as zero-day because the prior report is not public. Because the visible original status is Triaged, the base S4.5 + I2 + N1 = 7.5 score receives 0.5 provisional credit."
         }
       ]
     },
@@ -1603,6 +1720,121 @@
           "zeroDay": true,
           "points": 7.5,
           "scoreReason": "The report is a closed duplicate of a private issue. Because duplicate/original severity is unavailable, the course-side severity follows the visible current High severity and the policy-enforcement impact evidence; novelty remains 1 under duplicate scoring."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 6 Group 3",
+      "cohort": "INFO5995",
+      "tutorialNumber": 6,
+      "groupNumber": 3,
+      "mainStudents": [
+        "Dinar Rahimita",
+        "Iris"
+      ],
+      "notes": "HackerOne evidence supports two private duplicate findings. Three coordinated-disclosure findings from the same group are accepted for course scoring from private evidence. The affected government agency identity is withheld at the reporter's request.",
+      "findings": [
+        {
+          "type": "Disclosure",
+          "title": "Government data portal account email-collision issue accepted for scoring",
+          "program": "Affected government agency withheld",
+          "internalSeverity": "High",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Course-side High reflects demonstrated account identity collision and lockout using two reporter-controlled accounts. The affected organization identity is withheld at the reporter's request.",
+          "mainStudents": "Dinar Rahimita",
+          "date": "2026-05-15",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Accepted for course scoring from coordinated-disclosure evidence",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization confirmed receipt and risk-verification processing; the unit coordinator accepted the evidence for leaderboard scoring. Agency name, domain, account identifiers, and technical details are withheld.",
+          "severityScore": 4.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 8.5,
+          "scoreReason": "Coordinator acceptance plus detailed private proof support counting this as a zero-day. Course-side High is used for account identity collision and lockout impact, with no public disclosure found."
+        },
+        {
+          "type": "Disclosure",
+          "title": "Mobile app map-service secret token exposure accepted for scoring",
+          "program": "Affected government agency withheld",
+          "internalSeverity": "Medium",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Course-side Medium reflects confirmed client-side exposure of a valid secret token, with no confirmed write/admin scope in the evidence. The affected organization identity is withheld at the reporter's request.",
+          "mainStudents": "Dinar Rahimita",
+          "date": "2026-05-15",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Accepted for course scoring from coordinated-disclosure evidence",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization confirmed receipt and risk-verification processing; the unit coordinator accepted the evidence for leaderboard scoring. Agency name, app name, token values, and technical details are withheld.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 7,
+          "scoreReason": "Coordinator acceptance plus private proof support counting this as a zero-day. Course-side Medium is used because the secret token was valid but write/admin scope was not confirmed."
+        },
+        {
+          "type": "Disclosure",
+          "title": "Mobile app static API bearer-token exposure accepted for scoring",
+          "program": "Affected government agency withheld",
+          "internalSeverity": "Medium",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "Course-side Medium reflects confirmed client-side exposure of a static bearer token. High production write impact is not used because the write proof is sandbox-only in the evidence. The affected organization identity is withheld at the reporter's request.",
+          "mainStudents": "Dinar Rahimita",
+          "date": "2026-05-15",
+          "reportPlatform": "Coordinated disclosure channel",
+          "reportStatus": "Accepted for course scoring from coordinated-disclosure evidence",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Affected organization confirmed receipt and risk-verification processing; the unit coordinator accepted the evidence for leaderboard scoring. Agency name, app name, token values, endpoints, and technical details are withheld.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 7,
+          "scoreReason": "Coordinator acceptance plus private proof support counting this as a zero-day. Course-side Medium is used because production write impact is not visible, even though the token exposure itself is confirmed."
+        },
+        {
+          "type": "Bug Bounty",
+          "title": "Crypto exchange balances endpoint IDOR confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Medium",
+          "externalSeverity": "Medium",
+          "severitySource": "Platform duplicate/original score",
+          "severityRationale": "HackerOne duplicate/original metadata shows Medium severity at 5.3.",
+          "mainStudents": "Iris",
+          "date": "2026-04-15",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Duplicate (closed)",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "HackerOne evidence shows the student's report closed as duplicate of a private Medium-severity original that is not publicly accessible. Affected program, report IDs, endpoint, and technical details are withheld.",
+          "severityScore": 3,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 6,
+          "scoreReason": "Visible duplicate/original metadata supports Medium severity. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
+        },
+        {
+          "type": "Bug Bounty",
+          "title": "Crypto exchange hardcoded basic-auth credential issue confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Low",
+          "externalSeverity": "Low",
+          "severitySource": "Platform duplicate/original score",
+          "severityRationale": "HackerOne duplicate/original metadata shows Low severity at 0.1-3.9.",
+          "mainStudents": "Iris",
+          "date": "2026-04-15",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Duplicate (closed)",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "HackerOne evidence shows the student's report closed as duplicate of a private Low-severity original that is not publicly accessible. Affected program, report IDs, hostnames, credentials, and technical details are withheld.",
+          "severityScore": 1.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 4.5,
+          "scoreReason": "Visible duplicate/original metadata supports Low severity. The duplicate is treated as zero-day because the prior report is not public; novelty remains 1 under duplicate scoring."
         }
       ]
     },
