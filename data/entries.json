@@ -69,8 +69,10 @@
   },
   "studentProfiles": {
     "Dinar Rahimita": "https://www.linkedin.com/in/dinar-rahimita/",
+    "Maurice Ng": "https://maurice.busystar.org/",
     "Santiago Gonzalez Alvarez": "https://www.linkedin.com/in/santiago-gonzalez-alvarez-0921a416a/",
-    "Shyam Sundhar Ganesh": "https://shyamsundhar.com"
+    "Shyam Sundhar Ganesh": "https://shyamsundhar.com",
+    "Strick Sheng": "https://str1ckl4nd.github.io/"
   },
   "students": [
     {
@@ -1510,7 +1512,7 @@
       "tutorialNumber": 18,
       "groupNumber": 1,
       "mainStudents": [
-        "Siwat",
+        "Siwat Sirichai",
         "Eason Yu",
         "Sam Chen",
         "Raymond"
@@ -1525,7 +1527,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and patched unauthenticated disclosure of non-public post content; course-side High follows the demonstrated sensitive-content exposure.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1550,7 +1552,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and fixed the bypass but disputed the student's High severity because the practical outcome is limited and configuration-dependent.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1575,7 +1577,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and moved to close the plugin after unauthenticated registered-user and visitor PII disclosure was reported.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1600,7 +1602,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor stated the issue was fixed and the plugin updated; impact is unauthorized upload of non-executable content under site-controlled paths.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1625,7 +1627,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and said it would be fixed in the next plugin release.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1650,7 +1652,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor reviewed the report and fixed the registration bypass in a plugin release.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1675,7 +1677,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed the unauthenticated upload issue and said nonce, authorization, and validation fixes were released.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"
@@ -1700,7 +1702,7 @@
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report, and the public plugin changelog later records a fix for unauthenticated arbitrary file upload.",
           "mainStudents": [
-            "Siwat",
+            "Siwat Sirichai",
             "Eason Yu",
             "Sam Chen",
             "Raymond"

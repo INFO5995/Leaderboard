@@ -72,6 +72,19 @@ function formatDate(value) {
   });
 }
 
+function formatCompactDate(value) {
+  const parsed = parseDate(value);
+  if (!parsed) {
+    return "--/--/--";
+  }
+
+  return parsed.toLocaleDateString("en-GB", {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit"
+  });
+}
+
 function formatScore(value) {
   const numeric = Number(value);
   if (!Number.isFinite(numeric)) {
@@ -462,7 +475,9 @@ function buildFindingCell(finding) {
 
   const meta = document.createElement("p");
   meta.className = "finding-meta";
-  meta.textContent = `${finding.type || "Finding"} • ${finding.program || "Program withheld"}`;
+  meta.textContent = `${finding.type || "Finding"} • Added ${formatCompactDate(finding.date)} • ${
+    finding.program || "Program withheld"
+  }`;
 
   wrap.append(title, meta);
   return wrap;
@@ -551,7 +566,7 @@ function buildScoreCell(finding) {
   if (isProvisionalFinding(finding)) {
     const provisional = document.createElement("p");
     provisional.className = "score-provisional";
-    provisional.textContent = "Provisional triage";
+    provisional.textContent = "Triage 50%";
     wrap.append(provisional);
   }
 
@@ -626,6 +641,22 @@ function buildScoreSourceCell(finding) {
   }
 
   wrap.append(pill, note);
+  return wrap;
+}
+
+function buildTeamCell(finding) {
+  const wrap = document.createElement("div");
+  wrap.className = "team-stack";
+
+  const tutorial = document.createElement("span");
+  tutorial.className = "team-main";
+  tutorial.textContent = firstNonEmpty(finding.tutorialNumber) ? `Tut ${finding.tutorialNumber}` : "-";
+
+  const group = document.createElement("span");
+  group.className = "team-sub";
+  group.textContent = firstNonEmpty(finding.groupNumber) ? `Group ${finding.groupNumber}` : "-";
+
+  wrap.append(tutorial, group);
   return wrap;
 }
 
@@ -712,7 +743,7 @@ function buildNotesCell(finding) {
   if (status) {
     const statusLine = document.createElement("span");
     statusLine.className = "notes-muted";
-    statusLine.textContent = `Status: ${status}`;
+    statusLine.textContent = status;
     wrap.append(statusLine);
   }
 
@@ -725,15 +756,17 @@ function buildNotesCell(finding) {
         : "provisional credit";
     const provisional = document.createElement("span");
     provisional.className = "notes-provisional";
-    provisional.textContent = `Provisional ${statusText}: ${creditText} pending final confirmation.`;
+    provisional.textContent = `Provisional: ${creditText}`;
+    provisional.title = statusText;
     wrap.append(provisional);
   }
 
   const evidenceNote = firstNonEmpty(finding.evidenceNote, finding.evidence_note, finding.reportNote, finding.report_note);
   if (evidenceNote) {
     const note = document.createElement("span");
-    note.className = "notes-muted";
-    note.textContent = evidenceNote;
+    note.className = "notes-muted notes-evidence";
+    note.textContent = "Evidence reviewed";
+    note.title = evidenceNote;
     wrap.append(note);
   }
 
@@ -1204,12 +1237,11 @@ function buildSeverityCell(finding) {
   const source = firstNonEmpty(finding.severitySource);
   const rationale = firstNonEmpty(finding.severityRationale);
   if (source) {
+    const kind = severitySourceKind(finding);
     const sourceLine = document.createElement("span");
-    sourceLine.className = "severity-source";
-    sourceLine.textContent = source;
-    if (rationale) {
-      sourceLine.title = rationale;
-    }
+    sourceLine.className = `source-pill source-${kind}`;
+    sourceLine.textContent = severitySourceLabel(kind);
+    sourceLine.title = [source, rationale].filter(Boolean).join(": ");
     wrap.append(badge, sourceLine);
   } else {
     wrap.append(badge);
@@ -1317,9 +1349,16 @@ function originalityBadge(originality) {
   const kind = originality?.kind || "unknown";
   const badge = document.createElement("span");
   badge.className = `originality-badge originality-${kind}`;
-  badge.textContent = originality?.label || "Unknown";
-  badge.title = originality?.detail || "";
-  badge.setAttribute("aria-label", `Originality: ${badge.textContent}`);
+  const fullLabel = originality?.label || "Unknown";
+  if (kind === "duplicate") {
+    badge.textContent = "Duplicate";
+  } else if (kind === "first") {
+    badge.textContent = "First";
+  } else {
+    badge.textContent = fullLabel;
+  }
+  badge.title = [fullLabel, originality?.detail].filter(Boolean).join(": ");
+  badge.setAttribute("aria-label", `Originality: ${fullLabel}`);
   return badge;
 }
 
@@ -1384,7 +1423,7 @@ function renderLeaderboard(findings) {
   if (findings.length === 0) {
     const row = document.createElement("tr");
     row.append(makeCell(emptyFilterMessage(), ""));
-    row.firstElementChild.colSpan = 11;
+    row.firstElementChild.colSpan = 7;
     els.leaderboardBody.append(row);
     return;
   }
@@ -1403,23 +1442,16 @@ function renderLeaderboard(findings) {
         value: buildLeadStudentsCell(finding)
       },
       {
-        label: "Notes",
+        label: "Status",
         value: buildNotesCell(finding)
       },
       {
         label: "Severity",
         value: buildSeverityCell(finding)
       },
-      {
-        label: "Score Source",
-        value: buildScoreSourceCell(finding)
-      },
-      { label: "Tutorial", value: formatLabelNumber("Tutorial", finding.tutorialNumber) },
-      { label: "Group", value: formatLabelNumber("Group", finding.groupNumber) },
-      { label: "Zero-day", value: zeroDayBadge(finding.zeroDayStatus) },
+      { label: "Team", value: buildTeamCell(finding) },
       { label: "Originality", value: originalityBadge(finding.originalityStatus) },
-      { label: "Rubric Score", value: buildScoreCell(finding) },
-      { label: "Date", value: formatDate(finding.date) }
+      { label: "Rubric Score", value: buildScoreCell(finding) }
     ];
 
     columns.forEach((column) => {
@@ -1483,7 +1515,7 @@ function showError(error) {
   els.leaderboardBody.innerHTML = "";
   const row = document.createElement("tr");
   const cell = document.createElement("td");
-  cell.colSpan = 11;
+  cell.colSpan = 7;
   cell.textContent = "Unable to load leaderboard data. Check data/entries.json.";
   row.append(cell);
   els.leaderboardBody.append(row);
