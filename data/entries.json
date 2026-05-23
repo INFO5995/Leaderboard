@@ -1,7 +1,7 @@
 {
   "title": "INFO5995 Security Discovery Leaderboard",
   "season": "2026 Semester 1",
-  "lastUpdated": "2026-05-21",
+  "lastUpdated": "2026-05-23",
   "scoringModel": {
     "formula": "Final credited finding score = Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10. Officially triaged but not finally confirmed entries use 0.5 provisional credit and display an asterisk.",
     "severityTiers": [
@@ -66,6 +66,11 @@
     "hall_of_fame": 0,
     "write_up": 0,
     "disclosure": 0
+  },
+  "studentProfiles": {
+    "Dinar Rahimita": "https://www.linkedin.com/in/dinar-rahimita/",
+    "Santiago Gonzalez Alvarez": "https://www.linkedin.com/in/santiago-gonzalez-alvarez-0921a416a/",
+    "Shyam Sundhar Ganesh": "https://shyamsundhar.com"
   },
   "students": [
     {
@@ -853,6 +858,39 @@
       ]
     },
     {
+      "name": "Tutorial 26 Group 3",
+      "cohort": "INFO5995",
+      "tutorialNumber": 26,
+      "groupNumber": 3,
+      "mainStudents": [
+        "Yixiao Tao"
+      ],
+      "notes": "External platform evidence shows a closed Low-severity duplicate. The affected program, endpoint, report codes, and repository details are withheld.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "Cross-team security-configuration metadata disclosure confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "Low",
+          "externalSeverity": "Low",
+          "severitySource": "Platform duplicate/original score",
+          "severityRationale": "External platform outcome is Closed / Duplicate and the severity was updated to Low to match the duplicated submission. The student's Medium argument was considered but not used because duplicate/original severity is visible.",
+          "mainStudents": "Yixiao Tao",
+          "date": "2026-05-03",
+          "reportPlatform": "External bug bounty platform",
+          "reportStatus": "Closed duplicate",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "External platform evidence shows a closed duplicate with Low duplicate/original severity. Affected program, endpoint, report codes, and repository details are withheld.",
+          "severityScore": 1.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 4.5,
+          "scoreReason": "Closed duplicate status supports a countable zero-day duplicate because the original report was not found publicly disclosed. Platform duplicate/original severity is visible as Low, so it is used over the student's Medium academic argument. Clear cross-boundary metadata disclosure supports full impact evidence, while duplicate novelty remains 1."
+        }
+      ]
+    },
+    {
       "name": "Tutorial 28 Group 1",
       "cohort": "INFO5995",
       "tutorialNumber": 28,
@@ -927,6 +965,48 @@
           "provisionalStatus": "official triage (duplicate)",
           "points": 3,
           "scoreReason": "Official Bugcrowd triage makes the duplicate provisionally countable. Severity is estimated conservatively as Medium because platform severity is hidden. Base score is S3 + I2 + N1 = 6, then triage provisional credit 0.5 gives 3 points."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 28 Group 5",
+      "cohort": "INFO5995",
+      "tutorialNumber": 28,
+      "groupNumber": 5,
+      "mainStudents": [
+        "Shyam Karthick",
+        "Nishanth Shanmugasundaram",
+        "Bharathwaj Murali",
+        "Tareq Alsubaie",
+        "Peisen Zhang"
+      ],
+      "notes": "Public Department of Energy acknowledgments page confirms Hall of Fame recognition for a valid vulnerability disclosure. Technical details and severity are not public, so severity is course-side assessed conservatively.",
+      "findings": [
+        {
+          "type": "Hall of Fame",
+          "title": "Department of Energy valid vulnerability acknowledged in Hall of Fame",
+          "program": "U.S. Department of Energy Vulnerability Disclosure Program",
+          "internalSeverity": "Low",
+          "severitySource": "Course-side assessed",
+          "severityRationale": "The official acknowledgments page confirms a valid vulnerability disclosure and Hall of Fame recognition, but no platform severity or technical impact details are public.",
+          "mainStudents": [
+            "Shyam Karthick",
+            "Nishanth Shanmugasundaram",
+            "Bharathwaj Murali",
+            "Tareq Alsubaie",
+            "Peisen Zhang"
+          ],
+          "date": "2026-05-23",
+          "reportPlatform": "Department of Energy Responsible Disclosure Program",
+          "reportStatus": "Acknowledged in Hall of Fame",
+          "originalityStatus": "Confirmed zero-day",
+          "evidenceNote": "Official DoE acknowledgments page says listed researchers responsibly disclosed valid vulnerabilities. No severity or technical detail is public.",
+          "severityScore": 1.5,
+          "impactEvidenceScore": 1,
+          "noveltyScore": 2,
+          "zeroDay": true,
+          "points": 4.5,
+          "scoreReason": "Official Hall of Fame recognition validates the disclosure, but public evidence does not show severity or concrete impact details. Course-side scoring uses Low severity and partial impact evidence, with full novelty because no prior public disclosure was found."
         }
       ]
     },
@@ -1078,6 +1158,49 @@
           "provisionalStatus": "official triage (duplicate)",
           "points": 2.25,
           "scoreReason": "Official Bugcrowd triage makes the duplicate provisionally countable, and visible P4 priority maps to Low severity. Base score is S1.5 + I2 + N1 = 4.5, then triage provisional credit 0.5 gives 2.25 points."
+        }
+      ]
+    },
+    {
+      "name": "Tutorial 33 Group 4",
+      "cohort": "INFO5995",
+      "tutorialNumber": 33,
+      "groupNumber": 4,
+      "mainStudents": [
+        "Jonathan Johnson",
+        "Khyati Jain",
+        "Shruti Humbal",
+        "Swastik Agarwal",
+        "Zeel Patel"
+      ],
+      "notes": "HackerOne analyst evidence shows one closed duplicate of a previously assessed private report. Other submitted duplicates were reviewed and excluded as Informative or unconfirmed. Affected program, report IDs, endpoint, and technical details are withheld.",
+      "findings": [
+        {
+          "type": "Bug Bounty",
+          "title": "Enrollment API unauthenticated record-creation issue confirmed duplicate",
+          "program": "Affected bug bounty program withheld",
+          "internalSeverity": "High",
+          "externalSeverity": "High",
+          "severitySource": "Platform duplicate/original score",
+          "severityRationale": "HackerOne duplicate/original metadata shows High severity at 8.4, with the original report redacted/private.",
+          "mainStudents": [
+            "Jonathan Johnson",
+            "Khyati Jain",
+            "Shruti Humbal",
+            "Swastik Agarwal",
+            "Zeel Patel"
+          ],
+          "date": "2026-05-14",
+          "reportPlatform": "HackerOne",
+          "reportStatus": "Duplicate (closed); original assessed",
+          "originalityStatus": "Zero-day duplicate",
+          "evidenceNote": "HackerOne analyst response says the report duplicates a previously assessed private report. Affected program, report IDs, endpoint, and technical details are withheld.",
+          "severityScore": 4.5,
+          "impactEvidenceScore": 2,
+          "noveltyScore": 1,
+          "zeroDay": true,
+          "points": 7.5,
+          "scoreReason": "Visible duplicate/original metadata supports High severity. The duplicate is treated as zero-day because the prior report is not public; novelty remains N1 under duplicate scoring."
         }
       ]
     },

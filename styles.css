@@ -614,6 +614,17 @@ tbody tr:last-child td {
   overflow-wrap: anywhere;
 }
 
+.student-link {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.18em;
+}
+
+.student-link:hover {
+  color: var(--score);
+}
+
 .scoring-panel .panel-head {
   border-bottom: none;
   padding: 0 0 1rem;

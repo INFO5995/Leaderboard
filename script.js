@@ -14,7 +14,8 @@ const els = {
 
 const state = {
   activeFilter: "all",
-  findings: []
+  findings: [],
+  studentProfiles: {}
 };
 
 document.addEventListener("DOMContentLoaded", init);
@@ -27,6 +28,7 @@ async function init() {
     }
 
     const data = await response.json();
+    state.studentProfiles = normalizeStudentProfiles(data.studentProfiles);
     const students = buildStudents(data);
     const findings = flattenFindings(students);
 
@@ -406,7 +408,7 @@ function renderRankingList(element, rows, mode) {
     students.className = "ranking-students";
     const rankingStudents =
       mode === "severity" ? firstNonEmpty(row.topFinding?.mainStudents, resolveTeamStudents(row.student)) : resolveTeamStudents(row.student);
-    students.textContent = leadStudentLabel(rankingStudents);
+    appendLinkedStudentNames(students, rankingStudents);
 
     body.append(title, students, detail);
     item.append(rank, body);
@@ -472,7 +474,7 @@ function buildLeadStudentsCell(finding) {
 
   const main = document.createElement("p");
   main.className = "students-main";
-  main.textContent = leadStudentLabel(finding.mainStudents);
+  appendLinkedStudentNames(main, finding.mainStudents);
   main.title = finding.mainStudents || "";
 
   wrap.append(main);
@@ -784,6 +786,18 @@ function normalizeNameList(value) {
   return [];
 }
 
+function normalizeStudentProfiles(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    Object.entries(value)
+      .map(([name, url]) => [String(name).trim(), String(url).trim()])
+      .filter(([name, url]) => name && /^https?:\/\//i.test(url))
+  );
+}
+
 function resolveTeamStudents(student) {
   const names = normalizeNameList(student.mainStudents ?? student.main_students ?? student.students);
   if (names.length > 0) {
@@ -801,6 +815,34 @@ function leadStudentLabel(value) {
 
   const text = firstNonEmpty(value);
   return text || "Not listed";
+}
+
+function appendLinkedStudentNames(element, value) {
+  const names = normalizeNameList(value);
+  if (names.length === 0) {
+    element.textContent = leadStudentLabel(value);
+    return;
+  }
+
+  names.forEach((name, index) => {
+    if (index > 0) {
+      element.append(document.createTextNode(", "));
+    }
+
+    const url = state.studentProfiles[name];
+    if (!url) {
+      element.append(document.createTextNode(name));
+      return;
+    }
+
+    const link = document.createElement("a");
+    link.className = "student-link";
+    link.href = url;
+    link.textContent = name;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    element.append(link);
+  });
 }
 
 function resolveInternalSeverity(finding) {

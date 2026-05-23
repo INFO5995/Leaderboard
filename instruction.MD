@@ -87,7 +87,7 @@ Score source has only two public categories:
 
 ## Current Scoring Snapshot
 
-Last reviewed: 2026-05-21.
+Last reviewed: 2026-05-23.
 
 Scoring formula: Severity (0-6) + Impact Evidence (0-2) + Novelty (0-2), capped at 10. Officially triaged but not finally confirmed findings receive 0.5 provisional credit and are shown with `*`.
 
@@ -117,6 +117,7 @@ Current public leaderboard entries:
 | T12G05 | NFT bid payout recipient mismatch confirmed duplicate | Platform duplicate/original | High | S4.5 + I2 + N1 | 7.5 |
 | T16G01 | Mobile app session fixation issue confirmed duplicate | Platform duplicate/original | High | S4.5 + I2 + N1 | 7.5 |
 | T05G03 | Remote signing webhook policy-enforcement issue confirmed duplicate | Course-side assessed | High | S4.5 + I2 + N1 | 7.5 |
+| T33G04 | Enrollment API unauthenticated record-creation issue confirmed duplicate | Platform duplicate/original | High | S4.5 + I2 + N1 | 7.5 |
 | T01G05 | Mobile AI app deep-link JS bridge trust bypass confirmed by vendor | Platform/vendor | Medium | S3 + I2 + N2 | 7 |
 | T01G05 | Music app deep-link JS bridge exposure confirmed by vendor | Platform/vendor | Medium | S3 + I2 + N2 | 7 |
 | T18G01 | WordPress checkout file-upload authorization issue confirmed and fixed | Course-side assessed | Medium | S3 + I2 + N2 | 7 |
@@ -148,6 +149,8 @@ Current public leaderboard entries:
 | T21G01 | Open-source registry patch path escape confirmed duplicate | Platform/vendor | Low | S1.5 + I2 + N1 | 4.5 |
 | T21G01 | Anonymous form-submission rate-limit bypass confirmed duplicate | Platform/vendor | Low | S1.5 + I2 + N1 | 4.5 |
 | T33G08 | Smart-contract withdrawal restriction issue confirmed duplicate | Platform duplicate/original | Low | S1.5 + I2 + N1 | 4.5 |
+| T26G03 | Cross-team security-configuration metadata disclosure confirmed duplicate | Platform duplicate/original | Low | S1.5 + I2 + N1 | 4.5 |
+| T28G05 | Department of Energy valid vulnerability acknowledged in Hall of Fame | Course-side assessed | Low | S1.5 + I1 + N2 | 4.5 |
 | T29G05 | Backup credential directory listing confirmed duplicate | Platform duplicate/original | High | (S4.5 + I2 + N1) x 0.5 provisional | 3.75* |
 | T21G01 | Production source-map credential exposure confirmed duplicate | Platform duplicate/original | High | (S4.5 + I2 + N1) x 0.5 provisional | 3.75* |
 | T33G08 | Project-scoped MCP branch operation bypass confirmed duplicate | Platform duplicate/original | High | (S4.5 + I2 + N1) x 0.5 provisional | 3.75* |
@@ -191,9 +194,12 @@ Current team totals:
 | T04G02 | 1 | 7.5 | 7.5 |
 | T12G05 | 1 | 7.5 | 7.5 |
 | T16G01 | 1 | 7.5 | 7.5 |
+| T33G04 | 1 | 7.5 | 7.5 |
 | T02G01 | 1 | 6.5 | 3.5 |
 | T23G02 | 1 | 6 | 6 |
 | T31G05 | 1 | 6 | 6 |
+| T26G03 | 1 | 4.5 | 4.5 |
+| T28G05 | 1 | 4.5 | 4.5 |
 | T15G02 | 0.5 | 3.75 | 3.75 |
 | T27G04 | 0.5 | 3.75 | 3.75 |
 | T29G05 | 0.5 | 3.75 | 3.75 |
@@ -281,5 +287,9 @@ Rebalancing note:
 - T02G02_02 evidence was checked on 2026-05-21. Count the first-disclosure HackerOne report provisionally: visible status is Triaged (Open), severity is Medium, and final resolution is not visible yet.
 - T33G08's 2026-05-21 screenshots are supplemental evidence for existing row `T33G08_01`, not a new finding. They confirm current report duplicate status and the private original's Low/Closed metadata. Related public Ethena restricted-staker withdrawal findings exist, but no exact public match to the private duplicate/original title was found in this review; revisit if stronger public-match evidence appears.
 - T06G03 evidence was refreshed on 2026-05-21. Count two HackerOne duplicate findings using visible duplicate/original severity: crypto-exchange balances IDOR as Medium and crypto-exchange hardcoded basic-auth credential exposure as Low. Count the three coordinated-disclosure government-agency findings based on the unit coordinator's acceptance of the private evidence, while keeping the affected agency name and exact technical identifiers out of public files. Score the account email-collision item High; score the two mobile-app token exposure items Medium because production write/admin impact is not visible.
+- T33G04 evidence was checked on 2026-05-23. Count only the affected-program HackerOne duplicate: the duplicate/original ticket is private/redacted, not publicly accessible, and shows High severity (8.4). Exclude the other T33G04 submissions per coordinator email because they are Informative or unconfirmed.
+- T26G03 evidence was checked on 2026-05-23. Count the closed duplicate as Low using the visible platform duplicate/original severity. The student's Medium severity rationale is coherent for academic discussion, but do not use it for leaderboard scoring because duplicate/original Low severity is visible. Keep the affected program, endpoint, report codes, and repository details out of public files.
+- T28G05 DoE Hall of Fame evidence was checked on 2026-05-23. The official acknowledgments page confirms a valid vulnerability disclosure and names Shyam Karthick V B. Because no severity or technical details are public, use course-side Low severity with partial impact evidence.
+- Student profile links added on 2026-05-23 for Santiago Gonzalez Alvarez, Dinar Rahimita, and Shyam Sundhar Ganesh. Links are stored in top-level `studentProfiles` and rendered only when the display name exactly matches.
 - If future vendor-confirmed High findings look similar in impact to a current course-side Critical, revisit the course-side Critical. Fairness favors aligning with vendor compression.
 - If future evidence shows a counted T26G05 finding is publicly disclosed, remove it from the leaderboard and add the disclosure link to its notes.

@@ -66,6 +66,8 @@ Each student entry has:
 - `notes` (optional string)
 - `findings` (array)
 
+The optional top-level `studentProfiles` map links exact student display names to public profile URLs. Matching names are rendered as outbound links in the leaderboard table and ranking cards.
+
 Each finding can include:
 
 - `type` (for example: `Bug Bounty`, `CVE`, `Hall of Fame`, `Write Up`)
