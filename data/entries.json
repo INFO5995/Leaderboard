@@ -896,7 +896,8 @@
       "tutorialNumber": 28,
       "groupNumber": 1,
       "mainStudents": [
-        "Haojie Huang"
+        "Haojie Huang",
+        "Zhenqi Chen"
       ],
       "notes": "Evidence includes one full-credit closed duplicate and two officially triaged findings treated as provisional at 0.5 credit. Affected products, programs, and report IDs are withheld.",
       "findings": [
@@ -930,7 +931,10 @@
           "internalSeverity": "Medium",
           "externalSeverity": "Medium",
           "severityRationale": "HackerOne evidence shows a closed duplicate with Medium duplicate severity.",
-          "mainStudents": "Haojie Huang",
+          "mainStudents": [
+            "Haojie Huang",
+            "Zhenqi Chen"
+          ],
           "date": "2026-05-04",
           "reportPlatform": "HackerOne",
           "reportStatus": "Duplicate (closed)",
@@ -1506,7 +1510,10 @@
       "tutorialNumber": 18,
       "groupNumber": 1,
       "mainStudents": [
-        "Eason Yu"
+        "Siwat",
+        "Eason Yu",
+        "Sam Chen",
+        "Raymond"
       ],
       "notes": "Coordinated vendor-disclosure evidence supports eight countable WordPress plugin findings. Affected plugin names, vendor contacts, exact endpoints, and exploit details are withheld; three additional checked items remain private exclusions.",
       "findings": [
@@ -1517,7 +1524,12 @@
           "internalSeverity": "High",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and patched unauthenticated disclosure of non-public post content; course-side High follows the demonstrated sensitive-content exposure.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-09",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and patched by vendor",
@@ -1537,7 +1549,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed and fixed the bypass but disputed the student's High severity because the practical outcome is limited and configuration-dependent.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-11",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor; severity disputed",
@@ -1557,7 +1574,12 @@
           "internalSeverity": "High",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and moved to close the plugin after unauthenticated registered-user and visitor PII disclosure was reported.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-09",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed by vendor; plugin closure requested",
@@ -1577,7 +1599,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor stated the issue was fixed and the plugin updated; impact is unauthorized upload of non-executable content under site-controlled paths.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-06",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Fixed by vendor",
@@ -1597,7 +1624,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report and said it would be fixed in the next plugin release.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Acknowledged by vendor for next release",
@@ -1617,7 +1649,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor reviewed the report and fixed the registration bypass in a plugin release.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor",
@@ -1637,7 +1674,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor confirmed the unauthenticated upload issue and said nonce, authorization, and validation fixes were released.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Confirmed and fixed by vendor",
@@ -1657,7 +1699,12 @@
           "internalSeverity": "Medium",
           "severitySource": "Course-side assessed",
           "severityRationale": "Vendor acknowledged the report, and the public plugin changelog later records a fix for unauthenticated arbitrary file upload.",
-          "mainStudents": "Eason Yu",
+          "mainStudents": [
+            "Siwat",
+            "Eason Yu",
+            "Sam Chen",
+            "Raymond"
+          ],
           "date": "2026-05-05",
           "reportPlatform": "Coordinated vendor disclosure",
           "reportStatus": "Acknowledged by vendor; fixed in public changelog",
@@ -1678,9 +1725,9 @@
       "tutorialNumber": 19,
       "groupNumber": 3,
       "mainStudents": [
-        "Not provided"
+        "Ngoc Son Hoang"
       ],
-      "notes": "Only a HackerOne screenshot was supplied, so student attribution is currently not provided. The report is a closed duplicate of a Medium original that is only Triaged, so provisional half credit is applied.",
+      "notes": "Ed ticket attribution identifies Ngoc Son Hoang as the main student. The report is a closed duplicate of a Medium original that is only Triaged, so provisional half credit is applied.",
       "findings": [
         {
           "type": "Bug Bounty",
@@ -1690,7 +1737,7 @@
           "externalSeverity": "Medium",
           "severitySource": "Platform duplicate/original score",
           "severityRationale": "HackerOne duplicate/original metadata shows Medium severity at 4.3.",
-          "mainStudents": "Not provided",
+          "mainStudents": "Ngoc Son Hoang",
           "date": "2026-05-05",
           "reportPlatform": "HackerOne",
           "reportStatus": "Duplicate (closed); original triaged",
@@ -1852,8 +1899,11 @@
       "tutorialNumber": 6,
       "groupNumber": 3,
       "mainStudents": [
+        "Chuyi Tang",
         "Dinar Rahimita",
-        "Iris"
+        "Jingtong Feng",
+        "Stella Wu",
+        "Iris Yang"
       ],
       "notes": "HackerOne evidence supports two private duplicate findings. Three coordinated-disclosure findings from the same group are accepted for course scoring from private evidence. The affected government agency identity is withheld at the reporter's request.",
       "findings": [
@@ -1925,7 +1975,7 @@
           "externalSeverity": "Medium",
           "severitySource": "Platform duplicate/original score",
           "severityRationale": "HackerOne duplicate/original metadata shows Medium severity at 5.3.",
-          "mainStudents": "Iris",
+          "mainStudents": "Iris Yang",
           "date": "2026-04-15",
           "reportPlatform": "HackerOne",
           "reportStatus": "Duplicate (closed)",
@@ -1946,7 +1996,7 @@
           "externalSeverity": "Low",
           "severitySource": "Platform duplicate/original score",
           "severityRationale": "HackerOne duplicate/original metadata shows Low severity at 0.1-3.9.",
-          "mainStudents": "Iris",
+          "mainStudents": "Iris Yang",
           "date": "2026-04-15",
           "reportPlatform": "HackerOne",
           "reportStatus": "Duplicate (closed)",
