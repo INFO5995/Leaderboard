@@ -417,13 +417,17 @@ function renderRankingList(element, rows, mode) {
       detail.textContent = `${formatScore(row.findingCount)} credited finding${row.findingCount === 1 ? "" : "s"}`;
     }
 
+    const heading = document.createElement("div");
+    heading.className = "ranking-heading";
+    heading.append(title, detail);
+
     const students = document.createElement("p");
     students.className = "ranking-students";
     const rankingStudents =
       mode === "severity" ? firstNonEmpty(row.topFinding?.mainStudents, resolveTeamStudents(row.student)) : resolveTeamStudents(row.student);
     appendLinkedStudentNames(students, rankingStudents);
 
-    body.append(title, students, detail);
+    body.append(heading, students);
     item.append(rank, body);
     element.append(item);
   });
@@ -1223,37 +1227,30 @@ function rowToneClass(finding) {
   return severityClass(finding.severity).replace("sev-", "tone-");
 }
 
-function buildSeverityCell(finding) {
+function buildTagsCell(finding) {
   const wrap = document.createElement("div");
-  wrap.className = "severity-stack";
+  wrap.className = "tag-stack";
 
   const value = firstNonEmpty(finding.severity, "Unknown");
   const text = firstNonEmpty(value, "Unknown");
-  const badge = document.createElement("span");
-  badge.className = `sev-badge ${severityClass(text)}`;
-  badge.textContent = text;
-  badge.setAttribute("aria-label", `Severity: ${text}`);
+  const severity = document.createElement("span");
+  severity.className = `sev-badge ${severityClass(text)}`;
+  severity.textContent = text;
+  severity.setAttribute("aria-label", `Severity: ${text}`);
+  wrap.append(severity);
 
   const source = firstNonEmpty(finding.severitySource);
   const rationale = firstNonEmpty(finding.severityRationale);
   if (source) {
     const kind = severitySourceKind(finding);
-    const sourceLine = document.createElement("span");
-    sourceLine.className = `source-pill source-${kind}`;
-    sourceLine.textContent = severitySourceLabel(kind);
-    sourceLine.title = [source, rationale].filter(Boolean).join(": ");
-    wrap.append(badge, sourceLine);
-  } else {
-    wrap.append(badge);
+    const sourceTag = document.createElement("span");
+    sourceTag.className = `source-pill source-${kind}`;
+    sourceTag.textContent = severitySourceLabel(kind);
+    sourceTag.title = [source, rationale].filter(Boolean).join(": ");
+    wrap.append(sourceTag);
   }
 
-  if (rationale && normalizeType(source).includes("internally")) {
-    const reason = document.createElement("span");
-    reason.className = "severity-reason";
-    reason.textContent = rationale;
-    wrap.append(reason);
-  }
-
+  wrap.append(originalityBadge(finding.originalityStatus));
   return wrap;
 }
 
@@ -1423,7 +1420,7 @@ function renderLeaderboard(findings) {
   if (findings.length === 0) {
     const row = document.createElement("tr");
     row.append(makeCell(emptyFilterMessage(), ""));
-    row.firstElementChild.colSpan = 7;
+    row.firstElementChild.colSpan = 6;
     els.leaderboardBody.append(row);
     return;
   }
@@ -1446,11 +1443,10 @@ function renderLeaderboard(findings) {
         value: buildNotesCell(finding)
       },
       {
-        label: "Severity",
-        value: buildSeverityCell(finding)
+        label: "Tags",
+        value: buildTagsCell(finding)
       },
       { label: "Team", value: buildTeamCell(finding) },
-      { label: "Originality", value: originalityBadge(finding.originalityStatus) },
       { label: "Rubric Score", value: buildScoreCell(finding) }
     ];
 
@@ -1515,7 +1511,7 @@ function showError(error) {
   els.leaderboardBody.innerHTML = "";
   const row = document.createElement("tr");
   const cell = document.createElement("td");
-  cell.colSpan = 7;
+  cell.colSpan = 6;
   cell.textContent = "Unable to load leaderboard data. Check data/entries.json.";
   row.append(cell);
   els.leaderboardBody.append(row);
