@@ -18,6 +18,8 @@ const state = {
   studentProfiles: {}
 };
 
+const RANKING_VISIBLE_LIMIT = 5;
+
 document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
@@ -376,7 +378,7 @@ function bonusRankRows(students) {
 
 function renderRankingList(element, rows, mode) {
   if (!element) {
-    return;
+    return [];
   }
 
   element.innerHTML = "";
@@ -384,12 +386,18 @@ function renderRankingList(element, rows, mode) {
     const item = document.createElement("li");
     item.textContent = "No ranked teams yet.";
     element.append(item);
-    return;
+    return [];
   }
+
+  const extraItems = [];
 
   rows.forEach((row, index) => {
     const item = document.createElement("li");
     item.className = "ranking-item";
+    if (index >= RANKING_VISIBLE_LIMIT) {
+      item.hidden = true;
+      extraItems.push(item);
+    }
 
     const rank = document.createElement("span");
     rank.className = "ranking-rank";
@@ -431,6 +439,43 @@ function renderRankingList(element, rows, mode) {
     item.append(rank, body);
     element.append(item);
   });
+
+  return extraItems;
+}
+
+function renderRankingToggle(hiddenItems) {
+  document.querySelectorAll(".ranking-toggle-row").forEach((item) => item.remove());
+
+  if (hiddenItems.length === 0) {
+    return;
+  }
+
+  const rankingGrid = els.severityRanking?.closest(".ranking-grid");
+  if (!rankingGrid) {
+    return;
+  }
+
+  const toggleRow = document.createElement("div");
+  toggleRow.className = "ranking-toggle-row";
+
+  const toggle = document.createElement("button");
+  toggle.className = "ranking-toggle";
+  toggle.type = "button";
+  toggle.setAttribute("aria-expanded", "false");
+  toggle.textContent = "Show all ranked teams";
+
+  toggle.addEventListener("click", () => {
+    const expanded = toggle.getAttribute("aria-expanded") === "true";
+    const nextExpanded = !expanded;
+    hiddenItems.forEach((item) => {
+      item.hidden = !nextExpanded;
+    });
+    toggle.setAttribute("aria-expanded", String(nextExpanded));
+    toggle.textContent = nextExpanded ? "Show top 5 only" : "Show all ranked teams";
+  });
+
+  toggleRow.append(toggle);
+  rankingGrid.append(toggleRow);
 }
 
 function rankingMetric(row, mode) {
@@ -450,8 +495,12 @@ function rankingLabel(rows, index, mode) {
 
 function renderBonusRankings(students) {
   const rankings = bonusRankRows(students);
-  renderRankingList(els.severityRanking, rankings.severity, "severity");
-  renderRankingList(els.countRanking, rankings.count, "count");
+  const hiddenRankingItems = [
+    ...renderRankingList(els.severityRanking, rankings.severity, "severity"),
+    ...renderRankingList(els.countRanking, rankings.count, "count")
+  ];
+
+  renderRankingToggle(hiddenRankingItems);
 }
 
 function makeCell(content, className) {
@@ -1383,14 +1432,29 @@ function updateFilterTabs() {
     duplicate: state.findings.filter((finding) => finding.originalityStatus.kind === "duplicate").length
   };
   const labels = {
-    all: "All",
-    first: "First disclosure",
-    duplicate: "Duplicates"
+    all: { full: "All", short: "All" },
+    first: { full: "First disclosure", short: "First" },
+    duplicate: { full: "Duplicates", short: "Dupes" }
   };
 
   els.filterTabs.forEach((tab) => {
     const filter = tab.dataset.filter || "all";
-    tab.textContent = `${labels[filter] || labels.all} (${counts[filter] ?? counts.all})`;
+    const label = labels[filter] || labels.all;
+    const count = counts[filter] ?? counts.all;
+    tab.replaceChildren();
+
+    const full = document.createElement("span");
+    full.className = "filter-label-full";
+    full.textContent = label.full;
+
+    const short = document.createElement("span");
+    short.className = "filter-label-short";
+    short.textContent = label.short;
+
+    const countText = document.createElement("span");
+    countText.textContent = ` (${count})`;
+
+    tab.append(full, short, countText);
   });
 }
 

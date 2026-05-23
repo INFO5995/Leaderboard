@@ -190,8 +190,10 @@ h2 {
 
 .table-controls {
   display: inline-flex;
-  flex-wrap: wrap;
+  max-width: 100%;
+  flex-wrap: nowrap;
   gap: 0.35rem;
+  overflow-x: auto;
 }
 
 .filter-tab {
@@ -205,6 +207,7 @@ h2 {
   font: 600 0.86rem "Inter", "Segoe UI", sans-serif;
   line-height: 1;
   padding: 0.52rem 0.68rem;
+  white-space: nowrap;
 }
 
 .filter-tab:hover,
@@ -218,6 +221,10 @@ h2 {
   border-color: var(--accent);
   background: var(--accent-soft);
   color: var(--accent-strong);
+}
+
+.filter-label-short {
+  display: none;
 }
 
 .table-wrap {
@@ -625,9 +632,35 @@ tbody tr:last-child td {
   padding-top: 0.42rem;
 }
 
+.ranking-item[hidden] {
+  display: none;
+}
+
 .ranking-item:first-child {
   border-top: none;
   padding-top: 0;
+}
+
+.ranking-toggle {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--accent-strong);
+  cursor: pointer;
+  font: 600 0.78rem "Inter", "Segoe UI", sans-serif;
+  padding: 0.38rem 0.6rem;
+}
+
+.ranking-toggle:hover,
+.ranking-toggle:focus-visible {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  outline: none;
+}
+
+.ranking-toggle-row {
+  grid-column: 1 / -1;
 }
 
 .ranking-rank {
@@ -813,7 +846,9 @@ tbody tr:last-child td {
   }
 
   .filter-tab {
-    flex: 1 1 auto;
+    flex: 1 1 0;
+    font-size: 0.8rem;
+    padding-inline: 0.48rem;
   }
 
   .scoring-grid {
@@ -826,6 +861,14 @@ tbody tr:last-child td {
 }
 
 @media (max-width: 520px) {
+  .filter-label-full {
+    display: none;
+  }
+
+  .filter-label-short {
+    display: inline;
+  }
+
   .page-shell {
     width: 100%;
     padding: 0.9rem 0.5rem 2rem;
