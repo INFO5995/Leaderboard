@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", init);
 
 async function init() {
   try {
-    const response = await fetch("data/entries.json", { cache: "no-store" });
+    const response = await fetch("/Leaderboard/data/entries.json", { cache: "no-store" });
     if (!response.ok) {
       throw new Error("Failed to load leaderboard data.");
     }

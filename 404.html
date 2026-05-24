@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>INFO5995 Leaderboard</title>
+    <script>
+      const path = window.location.pathname.replace(/\/+$/, "");
+      if (path === "/Leaderboard/scoring") {
+        window.location.replace("/Leaderboard/scoring.html");
+      } else if (path === "/Leaderboard") {
+        window.location.replace("/Leaderboard/");
+      } else {
+        window.location.replace("/Leaderboard/");
+      }
+    </script>
+  </head>
+  <body>
+    <p>Redirecting to the INFO5995 leaderboard...</p>
+  </body>
+</html>

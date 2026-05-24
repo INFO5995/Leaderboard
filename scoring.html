@@ -8,20 +8,25 @@
       content="INFO5995 scoring guide for security discovery leaderboard findings."
     />
     <title>INFO5995 Scoring Guide</title>
+    <script>
+      if (window.location.pathname === "/Leaderboard/scoring") {
+        window.location.replace("/Leaderboard/scoring.html");
+      }
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="/Leaderboard/styles.css" />
   </head>
   <body>
     <main class="page-shell">
       <header class="site-header">
         <nav class="top-nav" aria-label="Leaderboard navigation">
-          <a class="brand" href="index.html">INFO5995</a>
-          <a class="nav-link" href="index.html">Records</a>
+          <a class="brand" href="/Leaderboard/">INFO5995</a>
+          <a class="nav-link" href="/Leaderboard/">Records</a>
         </nav>
         <div class="header-copy">
           <p class="eyebrow" id="season-label">-</p>
@@ -120,6 +125,6 @@
       <p class="noscript-message">Enable JavaScript to view the scoring model.</p>
     </noscript>
 
-    <script src="script.js"></script>
+    <script src="/Leaderboard/script.js"></script>
   </body>
 </html>
